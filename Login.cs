@@ -1,4 +1,5 @@
 using ESPNotice3._0.Classes;
+using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace ESPNotice3._0
@@ -16,7 +17,7 @@ namespace ESPNotice3._0
 
         public void Login_Load(object sender, EventArgs e)
         {
-            
+            LoadStates();
         }
         public void Login_Activated(object sender, EventArgs e)
         {
@@ -54,6 +55,8 @@ namespace ESPNotice3._0
             pnlUser.BackColor = Color.White;
             tbxPassword.BackColor = SystemColors.Control;
             pnlPassword.BackColor = SystemColors.Control;
+            cmbState.BackColor = SystemColors.Control;
+            pnlState.BackColor = SystemColors.Control;
         }
         private void tbxPassword_Click(object sender, EventArgs e)
         {
@@ -61,9 +64,26 @@ namespace ESPNotice3._0
             pnlPassword.BackColor = Color.White;
             tbxUser.BackColor = SystemColors.Control;
             pnlUser.BackColor = SystemColors.Control;
+            cmbState.BackColor = SystemColors.Control;
+            pnlState.BackColor = SystemColors.Control;
+        }
+        private void cmbState_Click(object sender, EventArgs e)
+        {
+            cmbState.BackColor = Color.White; 
+            pnlState.BackColor = Color.White;
+            tbxUser.BackColor = SystemColors.Control;
+            pnlUser.BackColor = SystemColors.Control;
+            tbxPassword.BackColor = SystemColors.Control;
+            pnlPassword.BackColor = SystemColors.Control;
         }
         private void btnLogin_Click(object sender, EventArgs e)
         {
+            if(cmbState.SelectedIndex == 0)
+            {
+                MessageBox.Show("Please select state", Program.sMsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                cmbState.Focus();
+                return;
+            }
             if (Program.bdemo & Program.demoDate <= DateTime.Today)
             {
                 MessageBox.Show("Demo expired", Program.sMsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -138,5 +158,26 @@ namespace ESPNotice3._0
             }
             return bResult;
         }
+        private void LoadStates()
+        {
+            DataTable dt = DBAccess.GetSelectByQuery("SELECT StateCode, StateName FROM StateMaster WHERE Active = 1 ORDER BY StateName");
+
+            // Create placeholder row
+            DataRow dr = dt.NewRow();
+            dr["StateCode"] = 0;
+            dr["StateName"] = "-- Select State --";
+
+            // Insert at top
+            dt.Rows.InsertAt(dr, 0);
+
+            cmbState.DataSource = dt;
+            cmbState.DisplayMember = "StateName";
+            cmbState.ValueMember = "StateCode";
+            cmbState.SelectedIndex = 0;
+            Program.sStateCode = dt.Rows[0]["StateCode"].ToString();
+            Program.sStateName = dt.Rows[0]["StateName"].ToString();
+             
+        }
+
     }
 }

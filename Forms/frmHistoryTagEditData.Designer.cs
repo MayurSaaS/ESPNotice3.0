@@ -41,12 +41,20 @@
             lblValidGas = new Label();
             tbxTotalRecord = new TextBox();
             lblTotalRecord = new Label();
+            tbxDeviceId = new TextBox();
+            lblDeviceId = new Label();
+            tbxProcessDateTime = new TextBox();
+            lblProcessDateTime = new Label();
             tbxCenterName = new TextBox();
             lblCenterName = new Label();
             tbxCenterCode = new TextBox();
             lblCenterCode = new Label();
             tbxDate = new TextBox();
             lblDate = new Label();
+            tbxIsValidForReport = new TextBox();
+            lblIsValidForReport = new Label();
+            tbxNotices = new TextBox();
+            lblNotices = new Label();
             grbFormView.SuspendLayout();
             tabControl.SuspendLayout();
             grbGridView.SuspendLayout();
@@ -64,12 +72,20 @@
             grbFormView.Controls.Add(lblValidGas);
             grbFormView.Controls.Add(tbxTotalRecord);
             grbFormView.Controls.Add(lblTotalRecord);
+            grbFormView.Controls.Add(tbxDeviceId);
+            grbFormView.Controls.Add(lblDeviceId);
+            grbFormView.Controls.Add(tbxProcessDateTime);
+            grbFormView.Controls.Add(lblProcessDateTime);
             grbFormView.Controls.Add(tbxCenterName);
             grbFormView.Controls.Add(lblCenterName);
             grbFormView.Controls.Add(tbxCenterCode);
             grbFormView.Controls.Add(lblCenterCode);
             grbFormView.Controls.Add(tbxDate);
             grbFormView.Controls.Add(lblDate);
+            grbFormView.Controls.Add(tbxIsValidForReport);
+            grbFormView.Controls.Add(lblIsValidForReport);
+            grbFormView.Controls.Add(tbxNotices);
+            grbFormView.Controls.Add(lblNotices);
             grbFormView.Controls.SetChildIndex(lblDate, 0);
             grbFormView.Controls.SetChildIndex(tbxDate, 0);
             grbFormView.Controls.SetChildIndex(lblCenterCode, 0);
@@ -78,8 +94,16 @@
             grbFormView.Controls.SetChildIndex(tbxCenterName, 0);
             grbFormView.Controls.SetChildIndex(lblTotalRecord, 0);
             grbFormView.Controls.SetChildIndex(tbxTotalRecord, 0);
+            grbFormView.Controls.SetChildIndex(lblDeviceId, 0);
+            grbFormView.Controls.SetChildIndex(tbxDeviceId, 0);
             grbFormView.Controls.SetChildIndex(lblValidGas, 0);
             grbFormView.Controls.SetChildIndex(tbxValidGas, 0);
+            grbFormView.Controls.SetChildIndex(lblProcessDateTime, 0);
+            grbFormView.Controls.SetChildIndex(tbxProcessDateTime, 0);
+            grbFormView.Controls.SetChildIndex(lblIsValidForReport, 0);
+            grbFormView.Controls.SetChildIndex(tbxIsValidForReport, 0);
+            grbFormView.Controls.SetChildIndex(lblNotices, 0);
+            grbFormView.Controls.SetChildIndex(tbxNotices, 0);
             // 
             // pnlSearch
             // 
@@ -163,6 +187,78 @@
             lblTotalRecord.TabIndex = 35;
             lblTotalRecord.Text = "Total Record(s)";
             lblTotalRecord.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // tbxDeviceId
+            // 
+            tbxDeviceId.BorderStyle = BorderStyle.FixedSingle;
+            tbxDeviceId.Location = new Point(332, 200);
+            tbxDeviceId.Name = "tbxDeviceId";
+            tbxDeviceId.Size = new Size(260, 27);
+            tbxDeviceId.TabIndex = 37;
+            tbxDeviceId.Enabled = false;
+            // 
+            // lblDeviceId
+            // 
+            lblDeviceId.Location = new Point(157, 200);
+            lblDeviceId.Name = "lblDeviceId";
+            lblDeviceId.Size = new Size(175, 27);
+            lblDeviceId.TabIndex = 35;
+            lblDeviceId.Text = "Device Id";
+            lblDeviceId.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // tbxIsValidForReport
+            // 
+            tbxIsValidForReport.BorderStyle = BorderStyle.FixedSingle;
+            tbxIsValidForReport.Location = new Point(332, 162);
+            tbxIsValidForReport.Name = "tbxIsValidForReport";
+            tbxIsValidForReport.Size = new Size(260, 27);
+            tbxIsValidForReport.TabIndex = 37;
+            tbxIsValidForReport.Enabled = false;
+            // 
+            // lblIsValidForReport
+            // 
+            lblIsValidForReport.Location = new Point(157, 162);
+            lblIsValidForReport.Name = "lblIsValidForReport";
+            lblIsValidForReport.Size = new Size(175, 27);
+            lblIsValidForReport.TabIndex = 35;
+            lblIsValidForReport.Text = "Is Valid For Report";
+            lblIsValidForReport.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // tbxNotices
+            // 
+            tbxNotices.BorderStyle = BorderStyle.FixedSingle;
+            tbxNotices.Location = new Point(332, 202);
+            tbxNotices.Name = "tbxNotices";
+            tbxNotices.Size = new Size(260, 27);
+            tbxNotices.TabIndex = 37;
+            tbxNotices.Enabled = false;
+            // 
+            // lblNotices
+            // 
+            lblNotices.Location = new Point(157, 202);
+            lblNotices.Name = "lblNotices";
+            lblNotices.Size = new Size(175, 27);
+            lblNotices.TabIndex = 35;
+            lblNotices.Text = "Notices";
+            lblNotices.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // tbxProcessDateTime
+            // 
+            tbxProcessDateTime.BorderStyle = BorderStyle.FixedSingle;
+            tbxProcessDateTime.Location = new Point(912, 304);
+            tbxProcessDateTime.Name = "tbxProcessDateTime";
+            tbxProcessDateTime.Size = new Size(260, 27);
+            tbxProcessDateTime.TabIndex = 37;
+            tbxProcessDateTime.Enabled = false;
+            // 
+            // lblProcessDateTime
+            // 
+            lblProcessDateTime.Location = new Point(737, 304);
+            lblProcessDateTime.Name = "lblProcessDateTime";
+            lblProcessDateTime.Size = new Size(175, 27);
+            lblProcessDateTime.TabIndex = 35;
+            lblProcessDateTime.Text = "Process Date Time";
+            lblProcessDateTime.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // tbxCenterName
             // 
@@ -248,5 +344,13 @@
         private Label lblCenterCode;
         private TextBox tbxDate;
         private Label lblDate;
+        private TextBox tbxDeviceId;
+        private Label lblDeviceId;
+        private TextBox tbxProcessDateTime;
+        private Label lblProcessDateTime;
+        private Label lblIsValidForReport;
+        private TextBox tbxIsValidForReport;
+        private Label lblNotices;
+        private TextBox tbxNotices;
     }
 }

@@ -60,9 +60,15 @@ namespace ESPNotice3._0.Forms
             string fileName = openFileDialog.FileName;
             this.tbxCSVFilePath.Text = fileName;
             this.lblDeviceID.Text = "";
+            
             if (!(fileName == ""))
+            {
+                ReadVdfUnitFromCsv(fileName);
                 return;
+            }
+                
             MessageBox.Show("Please select CSV File.", Program.sMsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            
         }
 
         private void btnImportCSVFile_Click(object sender, EventArgs e)
@@ -294,9 +300,42 @@ namespace ESPNotice3._0.Forms
             }
         }
 
-        
+        private void ReadVdfUnitFromCsv(string filePath)
+        {
+            string delimiter = ",";   
+            using (var reader = new StreamReader(filePath))
+            {
+                // Header read
+                string headerLine = reader.ReadLine();
+                if (string.IsNullOrEmpty(headerLine))
+                    return;
 
+                string[] headers = headerLine.Split(delimiter.ToCharArray());
+                
+                int vdfUnitIndex = Array.FindIndex(headers,
+                    h => h.Trim().Equals("vdfUnit", StringComparison.OrdinalIgnoreCase));
 
+                if (vdfUnitIndex == -1)
+                {
+                    MessageBox.Show("vdfUnit column not found in CSV");
+                    return;
+                }
+                
+                string dataLine = reader.ReadLine();
+                if (string.IsNullOrEmpty(dataLine))
+                    return;
+
+                string[] data = dataLine.Split(delimiter.ToCharArray());
+
+                if (data.Length > vdfUnitIndex)
+                {
+                    string vdfUnitValue = data[vdfUnitIndex];
+
+                    lblDeviceID.Text = $"{vdfUnitValue}";
+                    lblDeviceID.Visible = true;
+                }
+            }
+        }
 
 
     }//Class

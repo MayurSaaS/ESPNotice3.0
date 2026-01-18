@@ -375,7 +375,17 @@ namespace ESPNotice3._0.Forms
             if (this.Name == "frmVIDData" || this.Name == "frmImportTagEdit" || this.Name == "frmNoticeGeneration")
                 sQry = "SELECT TOP 20 * FROM " + strTableName;
             else if (this.Name == "frmHistoryTagEditData")
-                sQry = "SELECT * FROM " + strTableName + " WHERE date BETWEEN '" + strFromCSVFileDate + "' AND '" + strToCSVFileDate + "'";
+            {
+                if(!string.IsNullOrWhiteSpace(tbxSearch.Text))
+                {
+                    sQry = "SELECT * FROM " + strTableName + " WHERE date BETWEEN '" + strFromCSVFileDate + "' AND '" + strToCSVFileDate + "'" + " AND (CenterName = '" + tbxSearch.Text + "' OR CenterCode = '" + tbxSearch.Text + "')";
+                }
+                else
+                {
+                    sQry = "SELECT * FROM " + strTableName + " WHERE date BETWEEN '" + strFromCSVFileDate + "' AND '" + strToCSVFileDate + "'";
+                }
+            }
+                
             else if (this.Name == "frmViewTagEditData")
                 sQry = "SELECT * FROM " + strTableName + " WHERE vdfDateTime = '" + strCSVFileDate + "'";
             else

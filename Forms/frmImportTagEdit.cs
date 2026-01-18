@@ -1,15 +1,16 @@
-﻿using System;
+﻿using ESPNotice3._0.Classes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ESPNotice3._0.Classes;
 
 namespace ESPNotice3._0.Forms
 {
@@ -61,7 +62,7 @@ namespace ESPNotice3._0.Forms
             this.tbxCSVFilePath.Text = fileName;
             this.lblDeviceID.Text = "";
             
-            if (!(fileName == ""))
+            if (!string.IsNullOrWhiteSpace(fileName))
             {
                 ReadVdfUnitFromCsv(fileName);
                 return;
@@ -141,6 +142,20 @@ namespace ESPNotice3._0.Forms
                             inputDeli = this.cbxDelimeter.Text.Trim();
                         DataTable csvFileVbs = ParseCSVFile_VBS(path, inputDeli);
                         DataRow[] dataRowArray = csvFileVbs.Select("vdfValid = 'V'");
+                        
+                        var stateGroup = csvFileVbs.AsEnumerable()
+                            .Where(r => !string.IsNullOrWhiteSpace(r.Field<string>("V_STATE_1")))
+                            .GroupBy(r => r.Field<string>("V_STATE_1").Trim())
+                            .OrderByDescending(g => g.Count())
+                            .FirstOrDefault();
+
+                        string maxStateCode = stateGroup.Key;
+
+                        if (!string.Equals(maxStateCode, Program.sStateCode, StringComparison.OrdinalIgnoreCase))
+                        {
+                            MessageBox.Show("State code does not match", Program.sMsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
                         //num2 = csvFileVbs.Rows.Count;
                         //this.proNotice.Maximum = dataRowArray.Length + 5;
                         //this.proNotice.Value = 5;
@@ -168,7 +183,7 @@ namespace ESPNotice3._0.Forms
                                 for (int columnIndex2 = 0; columnIndex2 < csvFileVbs.Columns.Count; ++columnIndex2)
                                     str6 = !(str6.Trim() == "") ? str6 + ", '" + csvFileVbs.Rows[index][columnIndex2].ToString() + "'" : "'" + csvFileVbs.Rows[index][columnIndex2].ToString() + "'";
                                 str1 = "";
-                                string strQuery = "set dateformat 'ymd' Insert into CSV (Code, CenterCode, CenterName, DeviceID, " + str4 + ") Values('" + Convert.ToInt32(this.cbxCenterName.SelectedValue) + "', '" + lblCenterCode.Text + "', '" + cbxCenterName.Text + "', '" + lblDeviceID.Text + "', " + str6 + ")";
+                                string strQuery = "set dateformat 'ymd' Insert into CSV (Code, CenterCode, CenterName, DeviceID, " + str4 + ", StateCode) Values('" + Convert.ToInt32(this.cbxCenterName.SelectedValue) + "', '" + lblCenterCode.Text + "', '" + cbxCenterName.Text + "', '" + lblDeviceID.Text + "', " + str6 + ", '" + Program.sStateCode + "' )";
                                 try
                                 {
                                     DBAccess.GetSelectByQuery(strQuery);
@@ -187,9 +202,9 @@ namespace ESPNotice3._0.Forms
                             str7 = selectByQuery2.Rows[0]["CenterName"].ToString();
                         try
                         {
-                            DataRow dr = DBAccess.GetSelectByQuery("SELECT [ProcessDateTime], [date], [DeviceID], [CenterName], [CenterCode], [TotalRecord], [ValidGas], IsValidForReport, Notices FROM [dbo].[TotalVGasMaster] where 1=2").NewRow();
+                            DataRow dr = DBAccess.GetSelectByQuery("SELECT [ProcessDateTime], [date], [DeviceID], [CenterName], [CenterCode], [TotalRecord], [ValidGas], IsValidForReport, Notices, StateCode FROM [dbo].[TotalVGasMaster] where 1=2").NewRow();
                             dr["ProcessDateTime"] = (object)DateTime.Now;
-                            dr["date"] = (object)this.dtpCSVFile.Value.Date;
+                            dr["date"] = csvFileVbs.Rows[0]["vdfDateTime"].ToString();//(object)this.dtpCSVFile.Value.Date;
                             dr["DeviceID"] = strDeviceID;
                             dr["CenterName"] = (object)str7;
                             dr["CenterCode"] = (object)this.lblCenterCode.Text.Trim();
@@ -197,7 +212,8 @@ namespace ESPNotice3._0.Forms
                             dr["ValidGas"] = (object)dataRowArray.Length;
                             dr["IsValidForReport"] = (object)true;
                             dr["Notices"] = dataRowArray.Length;
-                            string sQry = "INSERT INTO TotalVGasMaster Values(" + "'" + Convert.ToDateTime(dr["ProcessDateTime"]).ToString("yyyy-MM-dd HH:mm:ss") + "', '" + Convert.ToDateTime(dr["date"]).ToString("yyyy-MM-dd HH:mm:ss") + "', '" + dr["DeviceID"] + "', '" + dr["CenterName"] + "', '" + dr["CenterCode"] + "', '" + dr["TotalRecord"] + "', '" + dr["ValidGas"] + "', '" + dr["IsValidForReport"] + "', '" + dr["Notices"] + "')";
+                            dr["StateCode"] = Program.sStateCode; 
+                            string sQry = "INSERT INTO TotalVGasMaster Values(" + "'" + Convert.ToDateTime(dr["ProcessDateTime"]).ToString("yyyy-MM-dd HH:mm:ss") + "', '" + Convert.ToDateTime(dr["date"]).ToString("yyyy-MM-dd HH:mm:ss") + "', '" + dr["DeviceID"] + "', '" + dr["CenterName"] + "', '" + dr["CenterCode"] + "', '" + dr["TotalRecord"] + "', '" + dr["ValidGas"] + "', '" + dr["IsValidForReport"] + "', '" + dr["Notices"] + "', '" + dr["StateCode"] + "')";
                             DBAccess.ExecuteQuery(sQry);
                         }
                         catch (Exception ex)

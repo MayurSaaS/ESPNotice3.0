@@ -105,6 +105,8 @@ namespace ESPNotice3._0
             {
                 if (checkLogin())
                 {
+                    Program.sStateCode = cmbState.SelectedValue.ToString();
+                    Program.sStateName = cmbState.Text;
                     Program.bLogin = true;
                     this.Hide();
                     Program.IsBindEvent = true;
@@ -174,8 +176,8 @@ namespace ESPNotice3._0
             cmbState.DisplayMember = "StateName";
             cmbState.ValueMember = "StateCode";
             cmbState.SelectedIndex = 0;
-            Program.sStateCode = dt.Rows[0]["StateCode"].ToString();
-            Program.sStateName = dt.Rows[0]["StateName"].ToString();
+            //Program.sStateCode = dt.Rows[0]["StateCode"].ToString();
+            //Program.sStateName = dt.Rows[0]["StateName"].ToString();
              
         }
 

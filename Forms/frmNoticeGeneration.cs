@@ -31,14 +31,19 @@ namespace ESPNotice3._0.Forms
             tabControl.SelectedIndex = 2;
             grbNoticeView.Width = grbGridView.Width;
             reportViewer1.Width = grbGridView.Width - (reportViewer1.Left*2);
+
+            DBAccess.FillDropDownList("CenterMaster", "Code", "CenterName + '  -  (' + Centercode +')'", cbxCenterName, "");
         }
         private void dtpCSVDate_ValueChanged(object sender, EventArgs e)
         {
-            DataTable dt = DBAccess.GetSelectByQuery("SELECT DISTINCT Code, CenterCode, CenterName from CSV Where vdfDateTime = '" + dtpCSVDate.Text + "'");
+            string fromDate = dtpCSVDate.Value.ToString("yyyy-MM-dd");
 
+            string query = $"SELECT DISTINCT Code, CenterCode, CenterName FROM CSV WHERE vdfDateTime >= '{fromDate}' and vdfDateTime <= '{fromDate}'";
+            DataTable dt = DBAccess.GetSelectByQuery(query);
+
+            cbxCenterName.DataSource = dt;
             cbxCenterName.DisplayMember = "CenterName";
             cbxCenterName.ValueMember = "CenterCode";
-            cbxCenterName.DataSource = dt;
             tbxInputFilePath.Text = srcPath + dtpCSVDate.Value.ToString("dd-MM-yyyy") + "\\Pics\\";
         }
         private void cbxCenterName_SelectedIndexChanged(object sender, EventArgs e)
@@ -77,7 +82,7 @@ namespace ESPNotice3._0.Forms
             }
 
             // Notice Generation code
-            DataTable dt = DBAccess.GetSelectByQuery("EXEC GetNoticeGenerate " + Convert.ToDateTime(dtpCSVDate.Value).ToString("yyyy-MM-dd"));
+            DataTable dt = DBAccess.GetSelectByQuery("EXEC GetNoticeGenerate '" + Convert.ToDateTime(dtpCSVDate.Value).ToString("yyyy-MM-dd") + "'");
 
             MessageBox.Show("Notices has been generated successfully!", Program.sMsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
             if (cbxPDFFiles.Items.Count > 0)

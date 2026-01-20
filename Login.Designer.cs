@@ -47,7 +47,7 @@
             lblPoweredBy = new Label();
             pnlState = new Panel();
             cmbState = new ComboBox();
-            pbxState = new PictureBox();
+            pbxState = new Label();
             pnlLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbxLogo).BeginInit();
             pnlMain.SuspendLayout();
@@ -56,7 +56,6 @@
             pnlUser.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbxUser).BeginInit();
             pnlState.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pbxState).BeginInit();
             SuspendLayout();
             // 
             // pnlLeft
@@ -294,10 +293,10 @@
             // 
             cmbState.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbState.Font = new Font("Segoe UI", 12F);
-            cmbState.Location = new Point(69, 15);
+            cmbState.Location = new Point(93, 15);
             cmbState.Margin = new Padding(4);
             cmbState.Name = "cmbState";
-            cmbState.Size = new Size(625, 40);
+            cmbState.Size = new Size(377, 40);
             cmbState.TabIndex = 0;
             cmbState.Click += cmbState_Click;
             cmbState.Enter += cmbState_Click;
@@ -305,12 +304,13 @@
             // pbxState
             // 
             pbxState.BackgroundImageLayout = ImageLayout.Center;
-            pbxState.Location = new Point(15, 15);
+            pbxState.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            pbxState.Location = new Point(15, 14);
             pbxState.Margin = new Padding(4);
             pbxState.Name = "pbxState";
-            pbxState.Size = new Size(40, 40);
+            pbxState.Size = new Size(100, 70);
             pbxState.TabIndex = 1;
-            pbxState.TabStop = false;
+            pbxState.Text = "State:";
             // 
             // Login
             // 
@@ -341,7 +341,6 @@
             pnlUser.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbxUser).EndInit();
             pnlState.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pbxState).EndInit();
             ResumeLayout(false);
         }
 
@@ -366,6 +365,6 @@
         private Label lblLicenceTo;
         private Panel pnlState;
         private ComboBox cmbState;
-        private PictureBox pbxState;
+        private Label pbxState;
     }
 }

@@ -139,7 +139,7 @@ namespace ESPNotice3._0.Forms
             }
             else if (this.Name == "frmNoticeGeneration")
             {
-                strTableName = "NoticeData";
+                strTableName = "FinalGeneratedNotices";
                 ctrls = VIDData_ctrls;
             }
 
@@ -302,7 +302,7 @@ namespace ESPNotice3._0.Forms
         }
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            pro_LoadGrid();
+            pro_LoadGrid(true);
         }
 
         #endregion
@@ -369,11 +369,14 @@ namespace ESPNotice3._0.Forms
                 }
             }
         }
-        private void pro_LoadGrid()
+        private void pro_LoadGrid(bool isSearchClick = false)
         {
             string sQry = string.Empty;
-            if (this.Name == "frmVIDData" || this.Name == "frmImportTagEdit" || this.Name == "frmNoticeGeneration")
+            if (this.Name == "frmVIDData" || this.Name == "frmImportTagEdit")
+            {
                 sQry = "SELECT TOP 20 * FROM " + strTableName;
+            }
+                
             else if (this.Name == "frmHistoryTagEditData")
             {
                 if(!string.IsNullOrWhiteSpace(tbxSearch.Text))
@@ -387,9 +390,27 @@ namespace ESPNotice3._0.Forms
             }
                 
             else if (this.Name == "frmViewTagEditData")
+            {
                 sQry = "SELECT * FROM " + strTableName + " WHERE vdfDateTime = '" + strCSVFileDate + "'";
+            }
+            
+            else if (this.Name == "frmNoticeGeneration")
+            {
+                if(!string.IsNullOrWhiteSpace(tbxSearch.Text))
+                {
+                    sQry = $"SELECT * FROM  {strTableName} WHERE NoticeNo = '{tbxSearch.Text}' OR CenterName = '{tbxSearch.Text}'";
+                }
+                if(isSearchClick && string.IsNullOrWhiteSpace(tbxSearch.Text))
+                {
+                    MessageBox.Show("Please enter a Notice No or Center Name in the search text box.", Program.sMsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+
             else
+            {
                 sQry = "SELECT * FROM " + strTableName;
+            }
+                
 
             DataTable dt = DBAccess.GetDataTable(sQry);
             if (this.Controls.Find("dgvGrid", true).Length != 0 && this.Controls.Find("dgvGrid", true)[0].Visible)

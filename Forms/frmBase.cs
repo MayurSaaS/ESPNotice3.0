@@ -405,42 +405,37 @@ namespace ESPNotice3._0.Forms
             
             else if (this.Name == "frmNoticeGeneration")
             {
-                //if(!string.IsNullOrWhiteSpace(tbxSearch.Text) || !string.IsNullOrWhiteSpace(SelectedCenterName))
-                //{
-                //    sQry = $"SELECT * FROM  {strTableName} WHERE NoticeNo = '{tbxSearch.Text}' OR CenterName = '{SelectedCenterName}'";
-                //}
-                //if(isSearchClick && (string.IsNullOrWhiteSpace(SelectedCenterName) && string.IsNullOrWhiteSpace(tbxSearch.Text)))
-                //{
-                //    MessageBox.Show("Please enter a Notice No or Select Center Name.", Program.sMsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                //}
-                sQry = $"SELECT * FROM {strTableName}";
-                List<string> conditions = new List<string>();
-
-                if (!string.IsNullOrWhiteSpace(tbxSearch.Text))
+                if(isSearchClick)
                 {
-                    conditions.Add($"NoticeNo = '{tbxSearch.Text.Trim()}'");
-                }
+                    if ((string.IsNullOrWhiteSpace(SelectedCenterName) && string.IsNullOrWhiteSpace(tbxSearch.Text)))
+                    {
+                        MessageBox.Show(
+                            "Please enter a Notice No or Select Center Name.",
+                            Program.sMsgTitle,
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning
+                        );
+                        return;
+                    }
+                    sQry = $"SELECT * FROM {strTableName}";
+                    List<string> conditions = new List<string>();
 
-                if (!string.IsNullOrWhiteSpace(SelectedCenterName))
-                {
-                    conditions.Add($"CenterName = '{SelectedCenterName.Trim()}'");
-                }
+                    if (!string.IsNullOrWhiteSpace(tbxSearch.Text))
+                    {
+                        conditions.Add($"NoticeNo = '{tbxSearch.Text.Trim()}'");
+                    }
 
-                if (conditions.Count > 0)
-                {
-                    sQry += " WHERE " + string.Join(" OR ", conditions);
-                }
-                if (isSearchClick && (string.IsNullOrWhiteSpace(SelectedCenterName) && string.IsNullOrWhiteSpace(tbxSearch.Text)))
-                {
-                    MessageBox.Show(
-                        "Please enter a Notice No or Select Center Name.",
-                        Program.sMsgTitle,
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning
-                    );
-                   
-                }
+                    if (!string.IsNullOrWhiteSpace(SelectedCenterName))
+                    {
+                        conditions.Add($"CenterName = '{SelectedCenterName.Trim()}'");
+                    }
 
+                    if (conditions.Count > 0)
+                    {
+                        sQry += " WHERE " + string.Join(" AND ", conditions);
+                    }
+                    
+                }
 
             }
 

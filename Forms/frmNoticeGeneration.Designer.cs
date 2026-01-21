@@ -55,6 +55,8 @@ namespace ESPNotice3._0.Forms
             tabNoticeView = new TabPage();
             grbNoticeView = new GroupBox();
             btnNoticeView = new Button();
+            lblListCenter = new Label();
+            cbxListCenter = new ComboBox();
             grbFormView.SuspendLayout();
             tabControl.SuspendLayout();
             grbGridView.SuspendLayout();
@@ -108,6 +110,27 @@ namespace ESPNotice3._0.Forms
             tabControl.Controls.Add(tabNoticeView);
             tabControl.Controls.SetChildIndex(tabNoticeView, 0);
             tabControl.Controls.SetChildIndex(tabGridView, 0);
+            // add to search panel
+            // lblListCenter
+            //Label lblListCenter = new Label();
+            lblListCenter.Text = "Center";
+            lblListCenter.Location = new Point(420, 20);
+            lblListCenter.Size = new Size(60, 25);
+
+            // cbxListCenter
+            //ComboBox cbxListCenter = new ComboBox();
+            cbxListCenter.Name = "cbxListCenter";
+            cbxListCenter.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbxListCenter.Location = new Point(485, 20);
+            cbxListCenter.Size = new Size(300, 28);
+            cbxListCenter.SelectedIndexChanged += cbxListCenter_SelectedIndexChanged;
+
+            // add to search panel
+            pnlSearch.Controls.Add(lblListCenter);
+            pnlSearch.Controls.Add(cbxListCenter);
+
+            pnlSearch.Controls.Add(lblListCenter);
+            pnlSearch.Controls.Add(cbxListCenter);
             // 
             // btnProcessNotices
             // 
@@ -354,5 +377,7 @@ namespace ESPNotice3._0.Forms
         private TabPage tabNoticeView;
         private GroupBox grbNoticeView;
         private Button btnNoticeView;
+        private Label lblListCenter;
+        private ComboBox cbxListCenter;
     }
 }

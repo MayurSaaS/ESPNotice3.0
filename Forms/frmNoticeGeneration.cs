@@ -17,6 +17,13 @@ namespace ESPNotice3._0.Forms
     public partial class frmNoticeGeneration : frmBase
     {
         string srcPath = "D:\\ESP Notice 1.0 Before OCT 2020\\ESP Notice Utility\\Pics\\";
+        protected override string SelectedCenterName
+        {
+            get
+            {
+                return cbxListCenter.SelectedIndex > -1 ? cbxListCenter.Text.ToString() : string.Empty;
+            }
+        }
         public frmNoticeGeneration()
         {
             InitializeComponent();
@@ -31,8 +38,9 @@ namespace ESPNotice3._0.Forms
             tabControl.SelectedIndex = 2;
             grbNoticeView.Width = grbGridView.Width;
             reportViewer1.Width = grbGridView.Width - (reportViewer1.Left*2);
-
+            LoadCenterDropdown();
             DBAccess.FillDropDownList("CenterMaster", "Code", "CenterName + '  -  (' + Centercode +')'", cbxCenterName, "");
+
         }
         private void dtpCSVDate_ValueChanged(object sender, EventArgs e)
         {
@@ -70,6 +78,12 @@ namespace ESPNotice3._0.Forms
             }
 
         }
+        
+        private void cbxListCenter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbxListCenter.SelectedIndex == -1) return;
+            string centerName = cbxListCenter.Text.ToString();
+        }
 
         private void btnProcessNotices_Click(object sender, EventArgs e)
         {
@@ -82,7 +96,7 @@ namespace ESPNotice3._0.Forms
             }
 
             // Notice Generation code
-            DataTable dt = DBAccess.GetSelectByQuery("EXEC GetNoticeGenerate '" + Convert.ToDateTime(dtpCSVDate.Value).ToString("yyyy-MM-dd") + "'");
+            DataTable dt = DBAccess.GetSelectByQuery("EXEC GetNoticeGenerate '" + Convert.ToDateTime(dtpCSVDate.Value).ToString("yyyy-MM-dd") + "', '" + Program.sStateCode + "'");
 
             MessageBox.Show("Notices has been generated successfully!", Program.sMsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
             if (cbxPDFFiles.Items.Count > 0)
@@ -130,6 +144,17 @@ namespace ESPNotice3._0.Forms
                     }
                 }
             }
+        }
+
+        private void LoadCenterDropdown()
+        {
+            string sql = $"SELECT DISTINCT CenterCode,CenterName FROM CSV WHERE StateCode = '{Program.sStateCode}' ";
+            DataTable dt = DBAccess.GetSelectByQuery(sql);
+
+            cbxListCenter.DataSource = dt;
+            cbxListCenter.DisplayMember = "CenterName";
+            cbxListCenter.ValueMember = "CenterCode";
+            cbxListCenter.SelectedIndex = -1;
         }
 
 

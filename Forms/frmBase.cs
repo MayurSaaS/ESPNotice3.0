@@ -24,6 +24,10 @@ namespace ESPNotice3._0.Forms
         public int CT1 = 0;
         public int CT2 = 0;
         public int PDLT = PDSize;
+        protected virtual string SelectedCenterName
+        {
+            get { return string.Empty; }
+        }
 
         #endregion
 
@@ -139,7 +143,9 @@ namespace ESPNotice3._0.Forms
             }
             else if (this.Name == "frmNoticeGeneration")
             {
-                strTableName = "FinalGeneratedNotices";
+                btnEdit.Visible = false;
+                btnNew.Visible = false;
+                strTableName = "NoticeData";
                 ctrls = VIDData_ctrls;
             }
 
@@ -260,33 +266,36 @@ namespace ESPNotice3._0.Forms
         }
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            if (dgvGrid.SelectedRows.Count > 0)
+            if (this.Name != "frmNoticeGeneration")
             {
-                IsEdit = true;
-
-                if(dgvGrid.Columns["Code"] != null)
-                    iCode = Convert.ToInt32(dgvGrid.SelectedRows[0].Cells["Code"].Value);
-                else if (dgvGrid.Columns["ID"] != null)
-                    iCode = Convert.ToInt32(dgvGrid.SelectedRows[0].Cells["ID"].Value);
-
-
-                foreach (Control ctrl in grbFormView.Controls)
+                if (dgvGrid.SelectedRows.Count > 0)
                 {
-                    if (ctrl.Name.StartsWith("tbx"))
+                    IsEdit = true;
+
+                    if (dgvGrid.Columns["Code"] != null)
+                        iCode = Convert.ToInt32(dgvGrid.SelectedRows[0].Cells["Code"].Value);
+                    else if (dgvGrid.Columns["ID"] != null)
+                        iCode = Convert.ToInt32(dgvGrid.SelectedRows[0].Cells["ID"].Value);
+
+
+                    foreach (Control ctrl in grbFormView.Controls)
                     {
-                        ctrl.Text = dgvGrid.SelectedRows[0].Cells[ctrl.Name.Replace("tbx", "")].Value.ToString();
-                        if (this.Controls.Find("lblStar" + ctrl.Name.Replace("tbx", ""), true).Length > 0)
+                        if (ctrl.Name.StartsWith("tbx"))
                         {
-                            if (this.Controls.Find("lblStar" + ctrl.Name.Replace("tbx", ""), true)[0].Text == "*")
-                                ctrl.Enabled = false;
-                            else
-                                ctrl.Enabled = true;
+                            ctrl.Text = dgvGrid.SelectedRows[0].Cells[ctrl.Name.Replace("tbx", "")].Value.ToString();
+                            if (this.Controls.Find("lblStar" + ctrl.Name.Replace("tbx", ""), true).Length > 0)
+                            {
+                                if (this.Controls.Find("lblStar" + ctrl.Name.Replace("tbx", ""), true)[0].Text == "*")
+                                    ctrl.Enabled = false;
+                                else
+                                    ctrl.Enabled = true;
+                            }
                         }
                     }
-                }
 
-                tabControl.SelectTab(1);
-                //tbxCompanyName.Focus();
+                    tabControl.SelectTab(1);
+                    //tbxCompanyName.Focus();
+                }
             }
         }
         private void btnCancel_Click(object sender, EventArgs e)
@@ -396,14 +405,43 @@ namespace ESPNotice3._0.Forms
             
             else if (this.Name == "frmNoticeGeneration")
             {
-                if(!string.IsNullOrWhiteSpace(tbxSearch.Text))
+                //if(!string.IsNullOrWhiteSpace(tbxSearch.Text) || !string.IsNullOrWhiteSpace(SelectedCenterName))
+                //{
+                //    sQry = $"SELECT * FROM  {strTableName} WHERE NoticeNo = '{tbxSearch.Text}' OR CenterName = '{SelectedCenterName}'";
+                //}
+                //if(isSearchClick && (string.IsNullOrWhiteSpace(SelectedCenterName) && string.IsNullOrWhiteSpace(tbxSearch.Text)))
+                //{
+                //    MessageBox.Show("Please enter a Notice No or Select Center Name.", Program.sMsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //}
+                sQry = $"SELECT * FROM {strTableName}";
+                List<string> conditions = new List<string>();
+
+                if (!string.IsNullOrWhiteSpace(tbxSearch.Text))
                 {
-                    sQry = $"SELECT * FROM  {strTableName} WHERE NoticeNo = '{tbxSearch.Text}' OR CenterName = '{tbxSearch.Text}'";
+                    conditions.Add($"NoticeNo = '{tbxSearch.Text.Trim()}'");
                 }
-                if(isSearchClick && string.IsNullOrWhiteSpace(tbxSearch.Text))
+
+                if (!string.IsNullOrWhiteSpace(SelectedCenterName))
                 {
-                    MessageBox.Show("Please enter a Notice No or Center Name in the search text box.", Program.sMsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    conditions.Add($"CenterName = '{SelectedCenterName.Trim()}'");
                 }
+
+                if (conditions.Count > 0)
+                {
+                    sQry += " WHERE " + string.Join(" OR ", conditions);
+                }
+                if (isSearchClick && (string.IsNullOrWhiteSpace(SelectedCenterName) && string.IsNullOrWhiteSpace(tbxSearch.Text)))
+                {
+                    MessageBox.Show(
+                        "Please enter a Notice No or Select Center Name.",
+                        Program.sMsgTitle,
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+                   
+                }
+
+
             }
 
             else

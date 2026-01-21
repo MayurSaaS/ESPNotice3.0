@@ -119,9 +119,15 @@ namespace ESPNotice3._0.Forms
             ReportDataSource datasource = new ReportDataSource("dt", ds.Tables[0]);
             this.reportViewer1.LocalReport.DataSources.Clear();
             this.reportViewer1.LocalReport.DataSources.Add(datasource);
+            // 🔥 FORCE PRINT LAYOUT MODE
+            this.reportViewer1.SetDisplayMode(DisplayMode.PrintLayout);
+
+            // 🔥 ZOOM FOR PRINT VIEW
+            this.reportViewer1.ZoomMode = ZoomMode.PageWidth;
             this.reportViewer1.RefreshReport();
             this.reportViewer1.Show();
             this.reportViewer1.RefreshReport();
+            
         }
 
         private dsNotice GetData()

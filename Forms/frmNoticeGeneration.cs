@@ -113,7 +113,7 @@ namespace ESPNotice3._0.Forms
 
         private void btnNoticeView_Click(object sender, EventArgs e)
         {
-            reportViewer1.LocalReport.ReportPath = "C:\\Work\\NitinM\\ESPNotice3.0\\RDLC\\rptNotices.rdlc";
+            reportViewer1.LocalReport.ReportPath = Application.StartupPath.Split("bin")[0] + "RDLC\\rptNotices.rdlc";
             
             dsNotice ds = GetData();
             ReportDataSource datasource = new ReportDataSource("dt", ds.Tables[0]);

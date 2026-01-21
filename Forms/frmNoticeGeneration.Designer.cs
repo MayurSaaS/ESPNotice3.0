@@ -191,7 +191,6 @@ namespace ESPNotice3._0.Forms
             // 
             // cbxCenterName
             // 
-            cbxCenterName.Enabled = true;
             cbxCenterName.FormattingEnabled = true;
             cbxCenterName.Location = new Point(432, 40);
             cbxCenterName.Name = "cbxCenterName";

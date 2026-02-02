@@ -29,6 +29,20 @@ namespace ESPNotice3._0
         [STAThread]
         static void Main()
         {
+            string InputFilesPath = Properties.Settings.Default.InputFilesPath;
+            if (string.IsNullOrEmpty(InputFilesPath))
+            { 
+                MessageBox.Show("Please configure Input paths", Program.sMsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Stop); 
+                Application.ExitThread();            
+            }
+
+            string OutputFilesPath = Properties.Settings.Default.OutputFilesPath;
+            if (string.IsNullOrEmpty(OutputFilesPath))
+            {
+                MessageBox.Show("Please configure Output paths", Program.sMsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                Application.ExitThread();
+            }
+
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();

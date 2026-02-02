@@ -1242,6 +1242,7 @@
                       </Style>
                     </Image>
                     <ColSpan>3</ColSpan>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
@@ -2450,7 +2451,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>dt</DataSetName>
-        <Height>8.69562in</Height>
+        <Height>8.69563in</Height>
         <Width>7.58667in</Width>
         <Style>
           <Border>

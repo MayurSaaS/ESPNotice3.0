@@ -38,6 +38,8 @@ namespace ESPNotice3._0.Forms
             lblCenterName = new Label();
             tbxCenterCode = new TextBox();
             lblCenterCode = new Label();
+            tbxStateCode = new TextBox();
+            lblStateCode = new Label();
             grbFormView.SuspendLayout();
             tabControl.SuspendLayout();
             grbGridView.SuspendLayout();
@@ -72,6 +74,8 @@ namespace ESPNotice3._0.Forms
             // 
             // grbFormView
             // 
+            grbFormView.Controls.Add(tbxStateCode);
+            grbFormView.Controls.Add(lblStateCode);
             grbFormView.Controls.Add(tbxCenterName);
             grbFormView.Controls.Add(lblCenterName);
             grbFormView.Controls.Add(tbxCenterCode);
@@ -80,6 +84,8 @@ namespace ESPNotice3._0.Forms
             grbFormView.Controls.SetChildIndex(tbxCenterCode, 0);
             grbFormView.Controls.SetChildIndex(lblCenterName, 0);
             grbFormView.Controls.SetChildIndex(tbxCenterName, 0);
+            grbFormView.Controls.SetChildIndex(lblStateCode, 0);
+            grbFormView.Controls.SetChildIndex(tbxStateCode, 0);
             // 
             // tabControl
             // 
@@ -106,6 +112,7 @@ namespace ESPNotice3._0.Forms
             // 
             tbxCenterCode.BorderStyle = BorderStyle.FixedSingle;
             tbxCenterCode.Location = new Point(247, 45);
+            tbxCenterCode.MaxLength = 4;
             tbxCenterCode.Name = "tbxCenterCode";
             tbxCenterCode.Size = new Size(300, 27);
             tbxCenterCode.TabIndex = 6;
@@ -118,6 +125,24 @@ namespace ESPNotice3._0.Forms
             lblCenterCode.TabIndex = 5;
             lblCenterCode.Text = "Center Code";
             lblCenterCode.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // tbxStateCode
+            // 
+            tbxStateCode.BorderStyle = BorderStyle.FixedSingle;
+            tbxStateCode.Location = new Point(247, 105);
+            tbxStateCode.MaxLength = 2;
+            tbxStateCode.Name = "tbxStateCode";
+            tbxStateCode.Size = new Size(300, 27);
+            tbxStateCode.TabIndex = 10;
+            // 
+            // lblStateCode
+            // 
+            lblStateCode.Location = new Point(72, 105);
+            lblStateCode.Name = "lblStateCode";
+            lblStateCode.Size = new Size(175, 27);
+            lblStateCode.TabIndex = 9;
+            lblStateCode.Text = "State Code";
+            lblStateCode.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // frmCenters
             // 
@@ -152,5 +177,7 @@ namespace ESPNotice3._0.Forms
         private Label lblCenterCode;
         private TextBox tbxCenterName;
         private Label lblCenterName;
+        private TextBox tbxStateCode;
+        private Label lblStateCode;
     }
 }

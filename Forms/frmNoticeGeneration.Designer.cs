@@ -57,6 +57,12 @@ namespace ESPNotice3._0.Forms
             btnNoticeView = new Button();
             lblListCenter = new Label();
             cbxListCenter = new ComboBox();
+            lblFromDate = new Label();
+            dtpFromDate = new DateTimePicker();
+            lblToDate = new Label();
+            dtpToDate = new DateTimePicker();
+            cbxCenterNameRptPara = new ComboBox();
+            lblCenterNameRptPara = new Label();
             grbFormView.SuspendLayout();
             tabControl.SuspendLayout();
             grbGridView.SuspendLayout();
@@ -110,27 +116,15 @@ namespace ESPNotice3._0.Forms
             tabControl.Controls.Add(tabNoticeView);
             tabControl.Controls.SetChildIndex(tabNoticeView, 0);
             tabControl.Controls.SetChildIndex(tabGridView, 0);
-            // add to search panel
-            // lblListCenter
-            //Label lblListCenter = new Label();
-            lblListCenter.Text = "Center";
-            lblListCenter.Location = new Point(420, 20);
-            lblListCenter.Size = new Size(60, 25);
-
-            // cbxListCenter
-            //ComboBox cbxListCenter = new ComboBox();
-            cbxListCenter.Name = "cbxListCenter";
-            cbxListCenter.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbxListCenter.Location = new Point(485, 20);
-            cbxListCenter.Size = new Size(300, 28);
-            cbxListCenter.SelectedIndexChanged += cbxListCenter_SelectedIndexChanged;
-
-            // add to search panel
+            // 
+            // pnlSearch
+            // 
             pnlSearch.Controls.Add(lblListCenter);
             pnlSearch.Controls.Add(cbxListCenter);
-
-            pnlSearch.Controls.Add(lblListCenter);
-            pnlSearch.Controls.Add(cbxListCenter);
+            pnlSearch.Controls.SetChildIndex(cbxListCenter, 0);
+            pnlSearch.Controls.SetChildIndex(lblListCenter, 0);
+            pnlSearch.Controls.SetChildIndex(btnSearch, 0);
+            pnlSearch.Controls.SetChildIndex(tbxSearch, 0);
             // 
             // btnProcessNotices
             // 
@@ -155,6 +149,7 @@ namespace ESPNotice3._0.Forms
             btnOpenPDF.TabIndex = 22;
             btnOpenPDF.Text = "Open File";
             btnOpenPDF.UseVisualStyleBackColor = true;
+            btnOpenPDF.Visible = false;
             // 
             // btnBrowse
             // 
@@ -174,6 +169,7 @@ namespace ESPNotice3._0.Forms
             lblPDFFile.TabIndex = 20;
             lblPDFFile.Text = "PDF File";
             lblPDFFile.TextAlign = ContentAlignment.MiddleLeft;
+            lblPDFFile.Visible = false;
             // 
             // cbxPDFFiles
             // 
@@ -183,6 +179,7 @@ namespace ESPNotice3._0.Forms
             cbxPDFFiles.Name = "cbxPDFFiles";
             cbxPDFFiles.Size = new Size(733, 28);
             cbxPDFFiles.TabIndex = 19;
+            cbxPDFFiles.Visible = false;
             // 
             // lblPicsPath
             // 
@@ -278,6 +275,7 @@ namespace ESPNotice3._0.Forms
             lblStarPDFFile.TabIndex = 26;
             lblStarPDFFile.Text = "*";
             lblStarPDFFile.TextAlign = ContentAlignment.MiddleLeft;
+            lblStarPDFFile.Visible = false;
             // 
             // lblStarCenterName
             // 
@@ -311,8 +309,15 @@ namespace ESPNotice3._0.Forms
             // 
             // grbNoticeView
             // 
+            grbNoticeView.Controls.Add(cbxCenterNameRptPara);
+            grbNoticeView.Controls.Add(lblCenterNameRptPara);
+            grbNoticeView.Controls.Add(lblToDate);
+            grbNoticeView.Controls.Add(dtpToDate);
+            grbNoticeView.Controls.Add(lblFromDate);
+            grbNoticeView.Controls.Add(dtpFromDate);
             grbNoticeView.Controls.Add(btnNoticeView);
             grbNoticeView.Controls.Add(reportViewer1);
+            grbNoticeView.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             grbNoticeView.Location = new Point(10, 0);
             grbNoticeView.Name = "grbNoticeView";
             grbNoticeView.Size = new Size(1312, 608);
@@ -325,13 +330,83 @@ namespace ESPNotice3._0.Forms
             btnNoticeView.FlatStyle = FlatStyle.Flat;
             btnNoticeView.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             btnNoticeView.ForeColor = Color.White;
-            btnNoticeView.Location = new Point(623, 29);
+            btnNoticeView.Location = new Point(1140, 29);
             btnNoticeView.Name = "btnNoticeView";
             btnNoticeView.Size = new Size(148, 59);
             btnNoticeView.TabIndex = 1;
             btnNoticeView.Text = "View Notices";
             btnNoticeView.UseVisualStyleBackColor = false;
             btnNoticeView.Click += btnNoticeView_Click;
+            // 
+            // lblListCenter
+            // 
+            lblListCenter.Location = new Point(420, 20);
+            lblListCenter.Name = "lblListCenter";
+            lblListCenter.Size = new Size(60, 25);
+            lblListCenter.TabIndex = 2;
+            lblListCenter.Text = "Center";
+            // 
+            // cbxListCenter
+            // 
+            cbxListCenter.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbxListCenter.Location = new Point(485, 20);
+            cbxListCenter.Name = "cbxListCenter";
+            cbxListCenter.Size = new Size(300, 28);
+            cbxListCenter.TabIndex = 3;
+            cbxListCenter.SelectedIndexChanged += cbxListCenter_SelectedIndexChanged;
+            // 
+            // lblFromDate
+            // 
+            lblFromDate.Location = new Point(9, 29);
+            lblFromDate.Name = "lblFromDate";
+            lblFromDate.Size = new Size(90, 27);
+            lblFromDate.TabIndex = 15;
+            lblFromDate.Text = "From Date:";
+            lblFromDate.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // dtpFromDate
+            // 
+            dtpFromDate.CustomFormat = "dd-MMM-yyyy";
+            dtpFromDate.Format = DateTimePickerFormat.Custom;
+            dtpFromDate.Location = new Point(105, 29);
+            dtpFromDate.Name = "dtpFromDate";
+            dtpFromDate.Size = new Size(141, 27);
+            dtpFromDate.TabIndex = 14;
+            // 
+            // lblToDate
+            // 
+            lblToDate.Location = new Point(258, 29);
+            lblToDate.Name = "lblToDate";
+            lblToDate.Size = new Size(90, 27);
+            lblToDate.TabIndex = 17;
+            lblToDate.Text = "To Date:";
+            lblToDate.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // dtpToDate
+            // 
+            dtpToDate.CustomFormat = "dd-MMM-yyyy";
+            dtpToDate.Format = DateTimePickerFormat.Custom;
+            dtpToDate.Location = new Point(354, 29);
+            dtpToDate.Name = "dtpToDate";
+            dtpToDate.Size = new Size(141, 27);
+            dtpToDate.TabIndex = 16;
+            // 
+            // cbxCenterNameRptPara
+            // 
+            cbxCenterNameRptPara.FormattingEnabled = true;
+            cbxCenterNameRptPara.Location = new Point(627, 29);
+            cbxCenterNameRptPara.Name = "cbxCenterNameRptPara";
+            cbxCenterNameRptPara.Size = new Size(455, 28);
+            cbxCenterNameRptPara.TabIndex = 19;
+            // 
+            // lblCenterNameRptPara
+            // 
+            lblCenterNameRptPara.Location = new Point(527, 29);
+            lblCenterNameRptPara.Name = "lblCenterNameRptPara";
+            lblCenterNameRptPara.Size = new Size(100, 27);
+            lblCenterNameRptPara.TabIndex = 18;
+            lblCenterNameRptPara.Text = "Center Name";
+            lblCenterNameRptPara.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // frmNoticeGeneration
             // 
@@ -378,5 +453,11 @@ namespace ESPNotice3._0.Forms
         private Button btnNoticeView;
         private Label lblListCenter;
         private ComboBox cbxListCenter;
+        private ComboBox cbxCenterNameRptPara;
+        private Label lblCenterNameRptPara;
+        private Label lblToDate;
+        private DateTimePicker dtpToDate;
+        private Label lblFromDate;
+        private DateTimePicker dtpFromDate;
     }
 }

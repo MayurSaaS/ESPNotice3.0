@@ -11,6 +11,8 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.ComponentModel.Design.ObjectSelectorEditor;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ESPNotice3._0.Forms
 {
@@ -22,8 +24,23 @@ namespace ESPNotice3._0.Forms
             this.tabControl.Visible = false;
         }
 
+        private string GetInputFilePath()
+        {
+            string InputFilesPath = Properties.Settings.Default.InputFilesPath.ToUpper();
+            if (!InputFilesPath.EndsWith("\\")) { InputFilesPath = InputFilesPath + "\\"; }
+
+            InputFilesPath = InputFilesPath.Replace("{STATE}", Program.sStateCode);
+            InputFilesPath = InputFilesPath.Replace("{YEAR}", dtpCSVFile.Value.Year.ToString("yyyy"));
+            InputFilesPath = InputFilesPath.Replace("{MONTH}", dtpCSVFile.Value.Month.ToString("MM"));
+            InputFilesPath = InputFilesPath.Replace("{DATE}", dtpCSVFile.Value.ToString("yyyy-MM-dd"));
+            InputFilesPath = InputFilesPath.Replace("{CSVORPICS}", "CSVFiles");
+
+            return InputFilesPath;
+        }
         private void frmImportTagEdit_Load(object sender, EventArgs e)
         {
+            string InputFilesPath = GetInputFilePath();
+
             this.lblFormTitle.Text = this.Text;
 
             pnlMain.Size = tabControl.Size;
@@ -31,7 +48,7 @@ namespace ESPNotice3._0.Forms
 
             pro_LoadCSVControls();
 
-            tbxCSVFilePath.Text = Application.StartupPath + "\\";
+            tbxCSVFilePath.Text = InputFilesPath;
             dtpCSVFile.Value = DateTime.Now;
             cbxDelimeter.SelectedIndex = 0;
 
@@ -41,10 +58,10 @@ namespace ESPNotice3._0.Forms
         private void pro_LoadCSVControls()
         {
             dgvCSV.Width = pnlMain.Width - 40;
-            dgvCSV.Height = pnlMain.Height - 140;
+            dgvCSV.Height = pnlMain.Height - 170;
 
             dgvCSV.Left = 20;
-            dgvCSV.Top = 120;
+            dgvCSV.Top = 150;
 
             btnImportCSVFile.Left = pnlMain.Width - btnImportCSVFile.Width - 20;
 
@@ -52,8 +69,9 @@ namespace ESPNotice3._0.Forms
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
+            string InputFilesPath = GetInputFilePath();
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.InitialDirectory = Application.StartupPath + "\\CSV Files";
+            openFileDialog.InitialDirectory = InputFilesPath;
             openFileDialog.AddExtension = true;
             openFileDialog.DefaultExt = ".csv";
             openFileDialog.Filter = "CSV Files (*.csv)|*.csv";
@@ -61,15 +79,15 @@ namespace ESPNotice3._0.Forms
             string fileName = openFileDialog.FileName;
             this.tbxCSVFilePath.Text = fileName;
             this.lblDeviceID.Text = "";
-            
+
             if (!string.IsNullOrWhiteSpace(fileName))
             {
                 ReadVdfUnitFromCsv(fileName);
                 return;
             }
-                
+
             MessageBox.Show("Please select CSV File.", Program.sMsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Hand);
-            
+
         }
 
         private void btnImportCSVFile_Click(object sender, EventArgs e)
@@ -142,7 +160,7 @@ namespace ESPNotice3._0.Forms
                             inputDeli = this.cbxDelimeter.Text.Trim();
                         DataTable csvFileVbs = ParseCSVFile_VBS(path, inputDeli);
                         DataRow[] dataRowArray = csvFileVbs.Select("vdfValid = 'V'");
-                        
+
                         var stateGroup = csvFileVbs.AsEnumerable()
                             .Where(r => !string.IsNullOrWhiteSpace(r.Field<string>("V_STATE_1")))
                             .GroupBy(r => r.Field<string>("V_STATE_1").Trim())
@@ -212,7 +230,7 @@ namespace ESPNotice3._0.Forms
                             dr["ValidGas"] = (object)dataRowArray.Length;
                             dr["IsValidForReport"] = (object)true;
                             dr["Notices"] = dataRowArray.Length;
-                            dr["StateCode"] = Program.sStateCode; 
+                            dr["StateCode"] = Program.sStateCode;
                             string sQry = "INSERT INTO TotalVGasMaster Values(" + "'" + Convert.ToDateTime(dr["ProcessDateTime"]).ToString("yyyy-MM-dd HH:mm:ss") + "', '" + Convert.ToDateTime(dr["date"]).ToString("yyyy-MM-dd HH:mm:ss") + "', '" + dr["DeviceID"] + "', '" + dr["CenterName"] + "', '" + dr["CenterCode"] + "', '" + dr["TotalRecord"] + "', '" + dr["ValidGas"] + "', '" + dr["IsValidForReport"] + "', '" + dr["Notices"] + "', '" + dr["StateCode"] + "')";
                             DBAccess.ExecuteQuery(sQry);
                         }
@@ -226,6 +244,17 @@ namespace ESPNotice3._0.Forms
                         this.proNotice.Value = 0;
                         this.proNotice.Maximum = 100;*/
                         dgvCSV.DataSource = (object)csvFileVbs;
+
+                        string strQryTotal = "SELECT TotalRecord, ValidGas FROM TotalVGasMaster WHERE [DATE] = '"+ this.dtpCSVFile.Value.ToString("dd-MMM-yyyy") + "' AND CenterCode = '" + this.lblCenterCode.Text.Trim() + "' AND DeviceID = '" + lblDeviceID.Text + "'";
+                        DataTable dt = DBAccess.GetSelectByQuery(strQryTotal);
+                        lblTotalRecords.Text = string.Empty;
+                        if (dt != null & dt.Rows.Count > 0)
+                        {
+                            string totRecords = Convert.ToString(dt.Rows[0]["TotalRecord"]);
+                            string totValidGas = Convert.ToString(dt.Rows[0]["ValidGas"]);
+                            lblTotalRecords.Text = "Total Records: " + totRecords + ",		     Total Valid Gas: " + totValidGas;
+                        }
+
                         if (MessageBox.Show("The CSV file has been imported successfully.", Program.sMsgTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             Process.Start("notepad.exe", str5);
                     }
@@ -318,7 +347,7 @@ namespace ESPNotice3._0.Forms
 
         private void ReadVdfUnitFromCsv(string filePath)
         {
-            string delimiter = ",";   
+            string delimiter = ",";
             using (var reader = new StreamReader(filePath))
             {
                 // Header read
@@ -327,7 +356,7 @@ namespace ESPNotice3._0.Forms
                     return;
 
                 string[] headers = headerLine.Split(delimiter.ToCharArray());
-                
+
                 int vdfUnitIndex = Array.FindIndex(headers,
                     h => h.Trim().Equals("vdfUnit", StringComparison.OrdinalIgnoreCase));
 
@@ -336,7 +365,7 @@ namespace ESPNotice3._0.Forms
                     MessageBox.Show("vdfUnit column not found in CSV");
                     return;
                 }
-                
+
                 string dataLine = reader.ReadLine();
                 if (string.IsNullOrEmpty(dataLine))
                     return;
@@ -353,6 +382,6 @@ namespace ESPNotice3._0.Forms
             }
         }
 
-
+        
     }//Class
 }//Namespace

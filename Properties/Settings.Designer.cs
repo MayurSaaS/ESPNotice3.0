@@ -12,7 +12,7 @@ namespace ESPNotice3._0.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.12.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.14.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -23,11 +23,37 @@ namespace ESPNotice3._0.Properties {
             }
         }
         
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Work\\NitinM\\Notice3Storage\\{State}\\InputFiles\\{Year}\\{Month}\\{CSVorPics}\\{Date" +
+            "}\\")]
+        public string InputFilesPath {
+            get {
+                return ((string)(this["InputFilesPath"]));
+            }
+            set {
+                this["InputFilesPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Work\\NitinM\\Notice3Storage\\{State}\\OutputFiles\\{Year}\\{Month}\\")]
+        public string OutputFilesPath {
+            get {
+                return ((string)(this["OutputFilesPath"]));
+            }
+            set {
+                this["OutputFilesPath"] = value;
+            }
+        }
+        
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=MSLAPTOP\\SQLEXPRESS;Initial Catalog=ESP_RSD;Persist Security Info=Tru" +
-            "e;User ID=sa;Password=sa;Encrypt=False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=MSLAPTOP\\SQLEXPRESS;\n                           Initial Catalog=ESP_R" +
+            "SD;\n                           Integrated Security=True;\n                       " +
+            "    TrustServerCertificate=True;")]
         public string connString {
             get {
                 return ((string)(this["connString"]));

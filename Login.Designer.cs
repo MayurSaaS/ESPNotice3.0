@@ -46,7 +46,7 @@
             lblPoweredByValue = new Label();
             lblPoweredBy = new Label();
             pnlState = new Panel();
-            cmbState = new ComboBox();
+            cbxState = new ComboBox();
             pbxState = new Label();
             pnlLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbxLogo).BeginInit();
@@ -67,19 +67,17 @@
             pnlLeft.Controls.Add(pbxLogo);
             pnlLeft.Dock = DockStyle.Left;
             pnlLeft.Location = new Point(0, 0);
-            pnlLeft.Margin = new Padding(4);
             pnlLeft.Name = "pnlLeft";
-            pnlLeft.Size = new Size(500, 750);
+            pnlLeft.Size = new Size(400, 600);
             pnlLeft.TabIndex = 0;
             // 
             // lblLicenceTo
             // 
             lblLicenceTo.Font = new Font("Microsoft Sans Serif", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblLicenceTo.ForeColor = Color.Silver;
-            lblLicenceTo.Location = new Point(12, 712);
-            lblLicenceTo.Margin = new Padding(4, 0, 4, 0);
+            lblLicenceTo.Location = new Point(10, 570);
             lblLicenceTo.Name = "lblLicenceTo";
-            lblLicenceTo.Size = new Size(475, 25);
+            lblLicenceTo.Size = new Size(380, 20);
             lblLicenceTo.TabIndex = 3;
             lblLicenceTo.Text = "ESP Notice 3.0 licence to ESP India Pvt. Ltd.";
             lblLicenceTo.TextAlign = ContentAlignment.MiddleCenter;
@@ -88,10 +86,9 @@
             // 
             lblAppNameDetail.Font = new Font("Segoe UI", 13.8F);
             lblAppNameDetail.ForeColor = Color.White;
-            lblAppNameDetail.Location = new Point(4, 296);
-            lblAppNameDetail.Margin = new Padding(4, 0, 4, 0);
+            lblAppNameDetail.Location = new Point(3, 237);
             lblAppNameDetail.Name = "lblAppNameDetail";
-            lblAppNameDetail.Size = new Size(331, 159);
+            lblAppNameDetail.Size = new Size(265, 127);
             lblAppNameDetail.TabIndex = 2;
             lblAppNameDetail.Text = "Welcome to the\r\nNotice Management\r\nSystem 3.0";
             lblAppNameDetail.TextAlign = ContentAlignment.MiddleRight;
@@ -100,10 +97,9 @@
             // 
             lblAppName.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblAppName.ForeColor = Color.Silver;
-            lblAppName.Location = new Point(150, 152);
-            lblAppName.Margin = new Padding(4, 0, 4, 0);
+            lblAppName.Location = new Point(120, 122);
             lblAppName.Name = "lblAppName";
-            lblAppName.Size = new Size(185, 38);
+            lblAppName.Size = new Size(148, 30);
             lblAppName.TabIndex = 1;
             lblAppName.Text = "ESP Notice 3.0";
             lblAppName.TextAlign = ContentAlignment.MiddleCenter;
@@ -111,10 +107,9 @@
             // pbxLogo
             // 
             pbxLogo.Image = Properties.Resources.esp_logo;
-            pbxLogo.Location = new Point(150, 62);
-            pbxLogo.Margin = new Padding(4);
+            pbxLogo.Location = new Point(120, 50);
             pbxLogo.Name = "pbxLogo";
-            pbxLogo.Size = new Size(185, 89);
+            pbxLogo.Size = new Size(148, 71);
             pbxLogo.TabIndex = 0;
             pbxLogo.TabStop = false;
             // 
@@ -129,10 +124,10 @@
             pnlMain.Controls.Add(lblPoweredByValue);
             pnlMain.Controls.Add(lblPoweredBy);
             pnlMain.Controls.Add(pnlState);
-            pnlMain.Location = new Point(500, 6);
+            pnlMain.Location = new Point(400, 5);
             pnlMain.Margin = new Padding(0);
             pnlMain.Name = "pnlMain";
-            pnlMain.Size = new Size(744, 736);
+            pnlMain.Size = new Size(595, 589);
             pnlMain.TabIndex = 1;
             // 
             // btnLogin
@@ -142,10 +137,10 @@
             btnLogin.FlatStyle = FlatStyle.Flat;
             btnLogin.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnLogin.ForeColor = Color.White;
-            btnLogin.Location = new Point(15, 527);
+            btnLogin.Location = new Point(12, 392);
             btnLogin.Margin = new Padding(0);
             btnLogin.Name = "btnLogin";
-            btnLogin.Size = new Size(250, 50);
+            btnLogin.Size = new Size(200, 40);
             btnLogin.TabIndex = 2;
             btnLogin.Text = "LOGIN";
             btnLogin.UseVisualStyleBackColor = false;
@@ -156,10 +151,9 @@
             pnlPassword.BackColor = SystemColors.Control;
             pnlPassword.Controls.Add(tbxPassword);
             pnlPassword.Controls.Add(pbxPassword);
-            pnlPassword.Location = new Point(0, 374);
-            pnlPassword.Margin = new Padding(4);
+            pnlPassword.Location = new Point(0, 241);
             pnlPassword.Name = "pnlPassword";
-            pnlPassword.Size = new Size(750, 69);
+            pnlPassword.Size = new Size(600, 55);
             pnlPassword.TabIndex = 7;
             // 
             // tbxPassword
@@ -167,10 +161,9 @@
             tbxPassword.BackColor = SystemColors.Control;
             tbxPassword.BorderStyle = BorderStyle.None;
             tbxPassword.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            tbxPassword.Location = new Point(68, 20);
-            tbxPassword.Margin = new Padding(4);
+            tbxPassword.Location = new Point(54, 16);
             tbxPassword.Name = "tbxPassword";
-            tbxPassword.Size = new Size(625, 32);
+            tbxPassword.Size = new Size(500, 27);
             tbxPassword.TabIndex = 1;
             tbxPassword.Text = "admin";
             tbxPassword.UseSystemPasswordChar = true;
@@ -181,10 +174,9 @@
             // 
             pbxPassword.BackgroundImage = Properties.Resources.lock_blue;
             pbxPassword.BackgroundImageLayout = ImageLayout.Center;
-            pbxPassword.Location = new Point(15, 15);
-            pbxPassword.Margin = new Padding(4);
+            pbxPassword.Location = new Point(12, 12);
             pbxPassword.Name = "pbxPassword";
-            pbxPassword.Size = new Size(40, 40);
+            pbxPassword.Size = new Size(32, 32);
             pbxPassword.TabIndex = 10;
             pbxPassword.TabStop = false;
             pbxPassword.MouseDown += pbxPassword_MouseDown;
@@ -195,20 +187,18 @@
             pnlUser.BackColor = Color.White;
             pnlUser.Controls.Add(tbxUser);
             pnlUser.Controls.Add(pbxUser);
-            pnlUser.Location = new Point(0, 301);
-            pnlUser.Margin = new Padding(4);
+            pnlUser.Location = new Point(0, 183);
             pnlUser.Name = "pnlUser";
-            pnlUser.Size = new Size(744, 69);
+            pnlUser.Size = new Size(595, 55);
             pnlUser.TabIndex = 6;
             // 
             // tbxUser
             // 
             tbxUser.BorderStyle = BorderStyle.None;
             tbxUser.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            tbxUser.Location = new Point(69, 20);
-            tbxUser.Margin = new Padding(4);
+            tbxUser.Location = new Point(55, 16);
             tbxUser.Name = "tbxUser";
-            tbxUser.Size = new Size(625, 32);
+            tbxUser.Size = new Size(500, 27);
             tbxUser.TabIndex = 0;
             tbxUser.Text = "Admin";
             tbxUser.Click += tbxUser_Click;
@@ -218,10 +208,9 @@
             // 
             pbxUser.BackgroundImage = Properties.Resources.user;
             pbxUser.BackgroundImageLayout = ImageLayout.Center;
-            pbxUser.Location = new Point(15, 15);
-            pbxUser.Margin = new Padding(4);
+            pbxUser.Location = new Point(12, 12);
             pbxUser.Name = "pbxUser";
-            pbxUser.Size = new Size(40, 40);
+            pbxUser.Size = new Size(32, 32);
             pbxUser.TabIndex = 9;
             pbxUser.TabStop = false;
             // 
@@ -229,10 +218,9 @@
             // 
             lblLogin.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblLogin.ForeColor = Color.FromArgb(41, 128, 185);
-            lblLogin.Location = new Point(8, 235);
-            lblLogin.Margin = new Padding(4, 0, 4, 0);
+            lblLogin.Location = new Point(6, 130);
             lblLogin.Name = "lblLogin";
-            lblLogin.Size = new Size(739, 50);
+            lblLogin.Size = new Size(591, 40);
             lblLogin.TabIndex = 5;
             lblLogin.Text = "Login to your account";
             lblLogin.TextAlign = ContentAlignment.MiddleLeft;
@@ -244,10 +232,10 @@
             btnClose.FlatStyle = FlatStyle.Flat;
             btnClose.Font = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnClose.ForeColor = Color.FromArgb(41, 128, 185);
-            btnClose.Location = new Point(704, 0);
+            btnClose.Location = new Point(563, 0);
             btnClose.Margin = new Padding(0);
             btnClose.Name = "btnClose";
-            btnClose.Size = new Size(40, 40);
+            btnClose.Size = new Size(32, 32);
             btnClose.TabIndex = 3;
             btnClose.Text = "X";
             btnClose.TextAlign = ContentAlignment.TopCenter;
@@ -258,10 +246,9 @@
             // 
             lblPoweredByValue.Font = new Font("Microsoft Sans Serif", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblPoweredByValue.ForeColor = Color.Silver;
-            lblPoweredByValue.Location = new Point(15, 712);
-            lblPoweredByValue.Margin = new Padding(4, 0, 4, 0);
+            lblPoweredByValue.Location = new Point(12, 570);
             lblPoweredByValue.Name = "lblPoweredByValue";
-            lblPoweredByValue.Size = new Size(250, 25);
+            lblPoweredByValue.Size = new Size(200, 20);
             lblPoweredByValue.TabIndex = 3;
             lblPoweredByValue.Text = "MS SOFTWARE SOLUTIONS";
             lblPoweredByValue.TextAlign = ContentAlignment.MiddleLeft;
@@ -270,10 +257,9 @@
             // 
             lblPoweredBy.Font = new Font("Microsoft Sans Serif", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblPoweredBy.ForeColor = Color.Silver;
-            lblPoweredBy.Location = new Point(15, 684);
-            lblPoweredBy.Margin = new Padding(4, 0, 4, 0);
+            lblPoweredBy.Location = new Point(12, 547);
             lblPoweredBy.Name = "lblPoweredBy";
-            lblPoweredBy.Size = new Size(185, 25);
+            lblPoweredBy.Size = new Size(148, 20);
             lblPoweredBy.TabIndex = 2;
             lblPoweredBy.Text = "Powered by";
             lblPoweredBy.TextAlign = ContentAlignment.MiddleLeft;
@@ -281,50 +267,48 @@
             // pnlState
             // 
             pnlState.BackColor = SystemColors.Window;
-            pnlState.Controls.Add(cmbState);
+            pnlState.Controls.Add(cbxState);
             pnlState.Controls.Add(pbxState);
-            pnlState.Location = new Point(0, 444);
-            pnlState.Margin = new Padding(4);
+            pnlState.Location = new Point(0, 297);
             pnlState.Name = "pnlState";
-            pnlState.Size = new Size(747, 69);
+            pnlState.Size = new Size(598, 55);
             pnlState.TabIndex = 8;
             // 
-            // cmbState
+            // cbxState
             // 
-            cmbState.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbState.Font = new Font("Segoe UI", 12F);
-            cmbState.Location = new Point(93, 15);
-            cmbState.Margin = new Padding(4);
-            cmbState.Name = "cmbState";
-            cmbState.Size = new Size(377, 40);
-            cmbState.TabIndex = 0;
-            cmbState.Click += cmbState_Click;
-            cmbState.Enter += cmbState_Click;
+            cbxState.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbxState.FlatStyle = FlatStyle.Flat;
+            cbxState.Font = new Font("Segoe UI", 12F);
+            cbxState.Location = new Point(216, 9);
+            cbxState.Name = "cbxState";
+            cbxState.Size = new Size(372, 36);
+            cbxState.TabIndex = 0;
+            cbxState.Click += cbxState_Click;
+            cbxState.Enter += cbxState_Click;
             // 
             // pbxState
             // 
             pbxState.BackgroundImageLayout = ImageLayout.Center;
             pbxState.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            pbxState.Location = new Point(15, 14);
-            pbxState.Margin = new Padding(4);
+            pbxState.Location = new Point(12, 11);
+            pbxState.Margin = new Padding(3);
             pbxState.Name = "pbxState";
-            pbxState.Size = new Size(100, 70);
+            pbxState.Size = new Size(80, 37);
             pbxState.TabIndex = 1;
             pbxState.Text = "State:";
             // 
             // Login
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(41, 128, 185);
-            ClientSize = new Size(1250, 750);
+            ClientSize = new Size(1000, 600);
             Controls.Add(pnlMain);
             Controls.Add(pnlLeft);
             FormBorderStyle = FormBorderStyle.None;
             KeyPreview = true;
-            Margin = new Padding(4);
-            MaximumSize = new Size(1250, 750);
-            MinimumSize = new Size(1250, 750);
+            MaximumSize = new Size(1000, 600);
+            MinimumSize = new Size(1000, 600);
             Name = "Login";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Login";
@@ -364,7 +348,7 @@
         private TextBox tbxPassword;
         private Label lblLicenceTo;
         private Panel pnlState;
-        private ComboBox cmbState;
+        private ComboBox cbxState;
         private Label pbxState;
     }
 }

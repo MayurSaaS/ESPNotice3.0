@@ -332,7 +332,19 @@ namespace ESPNotice3._0.Classes
                 }
             }
         }
-
+        internal static void FillDropDownList(string strQuery, string strDdlValue, string strDdlText, ComboBox cmbName)
+        {
+            DataTable dataTable = new DataTable();
+            dataTable = GetSelectByQuery(strQuery);
+            if (dataTable != null & dataTable.Rows.Count > 0)
+            {
+                if (strDdlText.ToUpper() == strDdlValue.ToUpper())
+                    strDdlText += "1";
+                cmbName.DisplayMember = dataTable.Columns[1].ColumnName;
+                cmbName.ValueMember = dataTable.Columns[0].ColumnName;
+                cmbName.DataSource = (object)dataTable;
+            }
+        }
 
 
     } //Class

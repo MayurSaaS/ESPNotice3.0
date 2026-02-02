@@ -55,7 +55,7 @@ namespace ESPNotice3._0
             pnlUser.BackColor = Color.White;
             tbxPassword.BackColor = SystemColors.Control;
             pnlPassword.BackColor = SystemColors.Control;
-            cmbState.BackColor = SystemColors.Control;
+            cbxState.BackColor = SystemColors.Control;
             pnlState.BackColor = SystemColors.Control;
         }
         private void tbxPassword_Click(object sender, EventArgs e)
@@ -64,12 +64,12 @@ namespace ESPNotice3._0
             pnlPassword.BackColor = Color.White;
             tbxUser.BackColor = SystemColors.Control;
             pnlUser.BackColor = SystemColors.Control;
-            cmbState.BackColor = SystemColors.Control;
+            cbxState.BackColor = SystemColors.Control;
             pnlState.BackColor = SystemColors.Control;
         }
-        private void cmbState_Click(object sender, EventArgs e)
+        private void cbxState_Click(object sender, EventArgs e)
         {
-            cmbState.BackColor = Color.White; 
+            cbxState.BackColor = Color.White; 
             pnlState.BackColor = Color.White;
             tbxUser.BackColor = SystemColors.Control;
             pnlUser.BackColor = SystemColors.Control;
@@ -78,10 +78,10 @@ namespace ESPNotice3._0
         }
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            if(cmbState.SelectedIndex == 0)
+            if(cbxState.SelectedIndex == 0)
             {
                 MessageBox.Show("Please select state", Program.sMsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                cmbState.Focus();
+                cbxState.Focus();
                 return;
             }
             if (Program.bdemo & Program.demoDate <= DateTime.Today)
@@ -105,8 +105,8 @@ namespace ESPNotice3._0
             {
                 if (checkLogin())
                 {
-                    Program.sStateCode = cmbState.SelectedValue.ToString();
-                    Program.sStateName = cmbState.Text;
+                    Program.sStateCode = cbxState.SelectedValue.ToString();
+                    Program.sStateName = cbxState.Text;
                     Program.bLogin = true;
                     this.Hide();
                     Program.IsBindEvent = true;
@@ -172,10 +172,11 @@ namespace ESPNotice3._0
             // Insert at top
             dt.Rows.InsertAt(dr, 0);
 
-            cmbState.DataSource = dt;
-            cmbState.DisplayMember = "StateName";
-            cmbState.ValueMember = "StateCode";
-            cmbState.SelectedIndex = 0;
+            cbxState.DataSource = dt;
+            cbxState.DisplayMember = "StateName";
+            cbxState.ValueMember = "StateCode";
+            cbxState.SelectedIndex = 0;
+            if (cbxState.Items.Count == 2) cbxState.SelectedIndex = 1;
             //Program.sStateCode = dt.Rows[0]["StateCode"].ToString();
             //Program.sStateName = dt.Rows[0]["StateName"].ToString();
              

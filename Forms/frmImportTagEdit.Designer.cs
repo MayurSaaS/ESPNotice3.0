@@ -34,6 +34,10 @@
         private void InitializeComponent()
         {
             pnlMain = new Panel();
+            lblTotalRecords = new Label();
+            lblStarCenterName = new Label();
+            lblStarCSVFilePath = new Label();
+            lblStarCSVFileDate = new Label();
             lblDeviceID = new Label();
             dgvCSV = new DataGridView();
             btnImportCSVFile = new Button();
@@ -47,9 +51,6 @@
             lblCenterName = new Label();
             cbxCenterName = new ComboBox();
             lblCSVFileDate = new Label();
-            lblStarCSVFileDate = new Label();
-            lblStarCSVFilePath = new Label();
-            lblStarCenterName = new Label();
             tabControl.SuspendLayout();
             grbGridView.SuspendLayout();
             tabGridView.SuspendLayout();
@@ -65,6 +66,7 @@
             // pnlMain
             // 
             pnlMain.BackColor = SystemColors.Control;
+            pnlMain.Controls.Add(lblTotalRecords);
             pnlMain.Controls.Add(lblStarCenterName);
             pnlMain.Controls.Add(lblStarCSVFilePath);
             pnlMain.Controls.Add(lblStarCSVFileDate);
@@ -85,6 +87,45 @@
             pnlMain.Name = "pnlMain";
             pnlMain.Size = new Size(1320, 662);
             pnlMain.TabIndex = 10;
+            // 
+            // lblTotalRecords
+            // 
+            lblTotalRecords.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTotalRecords.Location = new Point(141, 122);
+            lblTotalRecords.Name = "lblTotalRecords";
+            lblTotalRecords.Size = new Size(823, 27);
+            lblTotalRecords.TabIndex = 31;
+            lblTotalRecords.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // lblStarCenterName
+            // 
+            lblStarCenterName.ForeColor = Color.Red;
+            lblStarCenterName.Location = new Point(280, 25);
+            lblStarCenterName.Name = "lblStarCenterName";
+            lblStarCenterName.Size = new Size(10, 10);
+            lblStarCenterName.TabIndex = 30;
+            lblStarCenterName.Text = "*";
+            lblStarCenterName.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // lblStarCSVFilePath
+            // 
+            lblStarCSVFilePath.ForeColor = Color.Red;
+            lblStarCSVFilePath.Location = new Point(18, 75);
+            lblStarCSVFilePath.Name = "lblStarCSVFilePath";
+            lblStarCSVFilePath.Size = new Size(10, 10);
+            lblStarCSVFilePath.TabIndex = 29;
+            lblStarCSVFilePath.Text = "*";
+            lblStarCSVFilePath.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // lblStarCSVFileDate
+            // 
+            lblStarCSVFileDate.ForeColor = Color.Red;
+            lblStarCSVFileDate.Location = new Point(18, 25);
+            lblStarCSVFileDate.Name = "lblStarCSVFileDate";
+            lblStarCSVFileDate.Size = new Size(10, 10);
+            lblStarCSVFileDate.TabIndex = 28;
+            lblStarCSVFileDate.Text = "*";
+            lblStarCSVFileDate.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // lblDeviceID
             // 
@@ -211,36 +252,6 @@
             lblCSVFileDate.Text = "CSV File Date";
             lblCSVFileDate.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // lblStarCSVFileDate
-            // 
-            lblStarCSVFileDate.ForeColor = Color.Red;
-            lblStarCSVFileDate.Location = new Point(18, 25);
-            lblStarCSVFileDate.Name = "lblStarCSVFileDate";
-            lblStarCSVFileDate.Size = new Size(10, 10);
-            lblStarCSVFileDate.TabIndex = 28;
-            lblStarCSVFileDate.Text = "*";
-            lblStarCSVFileDate.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // lblStarCSVFilePath
-            // 
-            lblStarCSVFilePath.ForeColor = Color.Red;
-            lblStarCSVFilePath.Location = new Point(18, 75);
-            lblStarCSVFilePath.Name = "lblStarCSVFilePath";
-            lblStarCSVFilePath.Size = new Size(10, 10);
-            lblStarCSVFilePath.TabIndex = 29;
-            lblStarCSVFilePath.Text = "*";
-            lblStarCSVFilePath.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // lblStarCenterName
-            // 
-            lblStarCenterName.ForeColor = Color.Red;
-            lblStarCenterName.Location = new Point(280, 25);
-            lblStarCenterName.Name = "lblStarCenterName";
-            lblStarCenterName.Size = new Size(10, 10);
-            lblStarCenterName.TabIndex = 30;
-            lblStarCenterName.Text = "*";
-            lblStarCenterName.TextAlign = ContentAlignment.MiddleLeft;
-            // 
             // frmImportTagEdit
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -282,5 +293,6 @@
         private Label lblStarCSVFilePath;
         private Label lblStarCSVFileDate;
         private Label lblStarCenterName;
+        private Label lblTotalRecords;
     }
 }

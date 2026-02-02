@@ -2,26 +2,53 @@
 using ESPNotice3._0.DataSet;
 using Microsoft.Data.SqlClient;
 using Microsoft.Reporting.WinForms;
+using Microsoft.VisualBasic.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ESPNotice3._0.Forms
 {
     public partial class frmNoticeGeneration : frmBase
     {
-        string srcPath = "D:\\ESP Notice 1.0 Before OCT 2020\\ESP Notice Utility\\Pics\\";
+        private string GetInputFilePath()
+        {
+            string sInputFilesPath = Properties.Settings.Default.InputFilesPath.ToUpper();
+            if (!sInputFilesPath.EndsWith("\\")) { sInputFilesPath = sInputFilesPath + "\\"; }
+
+            sInputFilesPath = sInputFilesPath.Replace("{STATE}", Program.sStateCode);
+            sInputFilesPath = sInputFilesPath.Replace("{YEAR}", dtpCSVDate.Value.Year.ToString());
+            sInputFilesPath = sInputFilesPath.Replace("{MONTH}", dtpCSVDate.Value.Month.ToString().PadLeft(2, '0'));
+            sInputFilesPath = sInputFilesPath.Replace("{DATE}", dtpCSVDate.Value.ToString("yyyy-MM-dd"));
+            sInputFilesPath = sInputFilesPath.Replace("{CSVORPICS}", "Pics");
+
+            return sInputFilesPath;
+        }
+
+        private string GetOutputFilePath()
+        {
+            string sOutputFilesPath = Properties.Settings.Default.OutputFilesPath.ToUpper();
+            if (!sOutputFilesPath.EndsWith("\\")) { sOutputFilesPath = sOutputFilesPath + "\\"; }
+
+            sOutputFilesPath = sOutputFilesPath.Replace("{STATE}", Program.sStateCode);
+            sOutputFilesPath = sOutputFilesPath.Replace("{YEAR}", dtpCSVDate.Value.Year.ToString());
+            sOutputFilesPath = sOutputFilesPath.Replace("{MONTH}", dtpCSVDate.Value.Month.ToString().PadLeft(2, '0'));
+
+            return sOutputFilesPath;
+        }
         protected override string SelectedCenterName
         {
             get
             {
-                return cbxListCenter.SelectedIndex > -1 ? cbxListCenter.Text.ToString() : string.Empty;
+                return cbxListCenter.SelectedIndex > -1 ? Convert.ToString(cbxListCenter.SelectedValue) : string.Empty;
             }
         }
         public frmNoticeGeneration()
@@ -33,33 +60,50 @@ namespace ESPNotice3._0.Forms
 
         private void frmNoticeGeneration_Load(object sender, EventArgs e)
         {
+            string InputFilesPath = GetInputFilePath();
+
+            string OutputFilesPath = Properties.Settings.Default.OutputFilesPath;
+            if (!OutputFilesPath.EndsWith("\\")) { OutputFilesPath = OutputFilesPath + "\\"; }
+
             this.lblFormTitle.Text = this.Text;
-            tbxInputFilePath.Text = srcPath + dtpCSVDate.Value.ToString("dd-MM-yyyy") + "\\Pics\\";
+            tbxInputFilePath.Text = InputFilesPath;
             tabControl.SelectedIndex = 2;
             grbNoticeView.Width = grbGridView.Width;
+            grbNoticeView.Height = grbGridView.Height;
             reportViewer1.Width = grbGridView.Width - (reportViewer1.Left*2);
+            reportViewer1.Height = grbGridView.Height - (reportViewer1.Top+10 );
             LoadCenterDropdown();
-            DBAccess.FillDropDownList("CenterMaster", "Code", "CenterName + '  -  (' + Centercode +')'", cbxCenterName, "");
-
+            //DBAccess.FillDropDownList("CenterMaster", "Code", "CenterName + '  -  (' + Centercode +')'", cbxCenterName, "");
+            string fromDate = dtpCSVDate.Value.ToString("yyyy-MM-dd"); 
+            string strQry = "SELECT CM.CenterCode AS Code,  CM.CenterName + '  -  (' + CM.Centercode +')' + ' - (' + CONVERT(VARCHAR(10),COUNT(CSV.CenterCode)) + ')' AS CenterName FROM CenterMaster CM\r\nLEFT OUTER JOIN CSV ON CSV.CenterCode = CM.CenterCode\r\nWHERE CSV.vdfDateTime = '" + fromDate + "'\r\nGROUP BY CM.CenterCode, CM.CenterName";
+            DBAccess.FillDropDownList(strQry, "Code", "CenterName", cbxCenterName);
+            
         }
         private void dtpCSVDate_ValueChanged(object sender, EventArgs e)
         {
+            string InputFilesPath = GetInputFilePath();
             string fromDate = dtpCSVDate.Value.ToString("yyyy-MM-dd");
 
-            string query = $"SELECT DISTINCT Code, CenterCode, CenterName FROM CSV WHERE vdfDateTime >= '{fromDate}' and vdfDateTime <= '{fromDate}'";
-            DataTable dt = DBAccess.GetSelectByQuery(query);
+            //string query = $"SELECT DISTINCT Code, CenterCode, CenterName FROM CSV WHERE vdfDateTime >= '{fromDate}' and vdfDateTime <= '{fromDate}'";
+            //DataTable dt = DBAccess.GetSelectByQuery(query);
 
-            cbxCenterName.DataSource = dt;
-            cbxCenterName.DisplayMember = "CenterName";
-            cbxCenterName.ValueMember = "CenterCode";
-            tbxInputFilePath.Text = srcPath + dtpCSVDate.Value.ToString("dd-MM-yyyy") + "\\Pics\\";
+            //cbxCenterName.DataSource = dt;
+            //cbxCenterName.DisplayMember = "CenterName";
+            //cbxCenterName.ValueMember = "CenterCode";
+            cbxCenterName.DataSource = null;
+            string strQry = "SELECT CM.CenterCode AS Code,  CM.CenterName + '  -  (' + CM.Centercode +')' + ' - (' + CONVERT(VARCHAR(10),COUNT(CSV.CenterCode)) + ')' AS CenterName FROM CenterMaster CM\r\nLEFT OUTER JOIN CSV ON CSV.CenterCode = CM.CenterCode\r\nWHERE CSV.vdfDateTime = '" + fromDate + "'\r\nGROUP BY CM.CenterCode, CM.CenterName";
+            DBAccess.FillDropDownList(strQry, "Code", "CenterName", cbxCenterName);
+            tbxInputFilePath.Text = InputFilesPath;
         }
         private void cbxCenterName_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (cbxCenterName.SelectedValue !=null)
             tbxCenterCode.Text = cbxCenterName.SelectedValue.ToString();
         }
         private void btnBrowse_Click(object sender, EventArgs e)
         {
+            string InputFilesPath = GetInputFilePath();
+            folderBrowserDialog1.InitialDirectory = InputFilesPath;
             DialogResult result = folderBrowserDialog1.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -70,11 +114,18 @@ namespace ESPNotice3._0.Forms
                 tbxInputFilePath.Text = folderBrowserDialog1.SelectedPath.ToString();
                 // count = GetFileCount(tbxInputFilePath.Text);
                 //Program.InputFilePath = tbxInputFilePath.Text;
-                StreamWriter sw = File.CreateText(Application.StartupPath + "\\InputFilePath.txt");
-                sw.WriteLine(tbxInputFilePath.Text);
-                sw.Flush();
-                sw.Close();
-                sw.Dispose();
+                //if(!Directory.Exists(Application.StartupPath + "\\Logs"))
+                //    Directory.CreateDirectory(Application.StartupPath + "\\Logs");
+
+                //string sCenterCode = tbxCenterCode.Text;
+                //string sDevice = tbxCenterCode.Text;
+                //string sDate = dtpCSVDate.Value.ToString("yyyy-MM-dd");
+                //string sFilename = "Logs_" + sDate + sCenterCode + sDevice + ".txt";
+                //StreamWriter sw = File.CreateText(Application.StartupPath + "\\Logs\\"+ sFilename);
+                //sw.WriteLine(tbxInputFilePath.Text);
+                //sw.Flush();
+                //sw.Close();
+                //sw.Dispose();
             }
 
         }
@@ -87,8 +138,8 @@ namespace ESPNotice3._0.Forms
 
         private void btnProcessNotices_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrEmpty(cbxCenterName.Text)) { MessageBox.Show("Please select center", Program.sMsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
-            if (String.IsNullOrEmpty(tbxCenterCode.Text)) { MessageBox.Show("Please select center code", Program.sMsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            if (string.IsNullOrEmpty(cbxCenterName.Text)) { MessageBox.Show("Please select center", Program.sMsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            if (string.IsNullOrEmpty(tbxCenterCode.Text)) { MessageBox.Show("Please select center code", Program.sMsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             if (!Directory.Exists(tbxInputFilePath.Text))
             {
                 MessageBox.Show("Please select valid path", Program.sMsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -96,7 +147,8 @@ namespace ESPNotice3._0.Forms
             }
 
             // Notice Generation code
-            DataTable dt = DBAccess.GetSelectByQuery("EXEC GetNoticeGenerate '" + Convert.ToDateTime(dtpCSVDate.Value).ToString("yyyy-MM-dd") + "', '" + Program.sStateCode + "'");
+            DataTable dt = DBAccess.GetSelectByQuery("EXEC GetNoticeGenerate '" + dtpCSVDate.Value.ToString("yyyy-MM-dd") + "', '" + Program.sStateCode + "'");
+            GenerateNotices();
 
             MessageBox.Show("Notices has been generated successfully!", Program.sMsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
             if (cbxPDFFiles.Items.Count > 0)
@@ -111,11 +163,126 @@ namespace ESPNotice3._0.Forms
             }
         }
 
+
+        private void GenerateNotices()
+        {
+            string sOutputFilePath = GetOutputFilePath();
+            string fromDate = dtpCSVDate.Value.ToString("yyyy-MM-dd");
+            string toDate = fromDate;
+            string centerName = cbxCenterNameRptPara.Text;
+
+            //Month wise Notices
+            DateTime lastDateOfMonth = new DateTime(dtpCSVDate.Value.Year, dtpCSVDate.Value.Month, DateTime.DaysInMonth(dtpCSVDate.Value.Year, dtpCSVDate.Value.Month));
+            string fromDateMonthly = dtpCSVDate.Value.ToString("yyyy-MM-01");
+            string toDateMonthly = dtpCSVDate.Value.ToString("yyyy-MM-"+lastDateOfMonth.ToString("dd"));
+
+            dsNotice dsMonthly = GetData(fromDateMonthly, toDateMonthly, centerName, Program.sStateCode);
+            if (dsMonthly != null && dsMonthly.Tables.Count > 0)
+            {
+                DataTable dtNoticeMontly = dsMonthly.Tables[0];
+                LocalReport report = new LocalReport();
+                report.ReportPath = Application.StartupPath.Split("bin")[0] + "RDLC\\rptNotices.rdlc";
+                ReportDataSource datasource = new ReportDataSource("dt", dtNoticeMontly);
+                report.DataSources.Clear();
+                report.DataSources.Add(datasource);
+                // Render report to PDF
+                byte[] pdfBytes = report.Render(
+                    "PDF",
+                    null,
+                    out string mimeType,
+                    out string encoding,
+                    out string fileNameExtension,
+                    out string[] streams,
+                    out Warning[] warnings
+                );
+                //2601_Notices
+                string sfileNameMonthly = dtpFromDate.Value.ToString("yyMM") + "_Notices";
+                // Save file
+                File.WriteAllBytes(sOutputFilePath + sfileNameMonthly + ".pdf", pdfBytes);
+                ExportCSV(dtNoticeMontly, sOutputFilePath + sfileNameMonthly + ".csv");
+            }
+
+            ////Day wise - RTO WISE
+            //string fromDateDaily = dtpFromDate.Value.ToString("yyyy-MM-dd");
+            //string toDateDaily = fromDateDaily;
+
+            //dsNotice dsDaily = GetData(fromDateMonthly, toDateMonthly, centerName, Program.sStateCode);
+            //if (dsDaily != null && dsDaily.Tables.Count > 0)
+            //{
+            //    DataTable dtNoticeDaily = dsDaily.Tables[0];
+            //    LocalReport report = new LocalReport();
+            //    report.ReportPath = Application.StartupPath.Split("bin")[0] + "RDLC\\rptNotices.rdlc";
+            //    ReportDataSource datasource = new ReportDataSource("dt", dtNoticeDaily);
+            //    report.DataSources.Clear();
+            //    report.DataSources.Add(datasource);
+            //    // Render report to PDF
+            //    byte[] pdfBytes = report.Render(
+            //        "PDF",
+            //        null,
+            //        out string mimeType,
+            //        out string encoding,
+            //        out string fileNameExtension,
+            //        out string[] streams,
+            //        out Warning[] warnings
+            //    );
+            //    //2601_Notices
+            //    string sfileNameMonthly = dtpFromDate.Value.ToString("yyMM") + "_Notices";
+            //    // Save file
+            //    File.WriteAllBytes(sOutputFilePath + sfileNameMonthly + ".pdf", pdfBytes);
+            //    ExportCSV(dtNoticeMontly, sOutputFilePath + sfileNameMonthly + ".csv");
+            //}
+
+
+        }
+        private void ExportCSV(System.Data.DataTable dtDataTable, string strFilePath)
+        {
+            StreamWriter sw = new StreamWriter(strFilePath, false);
+            //headers    
+            for (int i = 0; i < dtDataTable.Columns.Count; i++)
+            {
+                sw.Write(dtDataTable.Columns[i]);
+                if (i < dtDataTable.Columns.Count - 1)
+                {
+                    sw.Write(",");
+                }
+            }
+            sw.Write(sw.NewLine);
+            foreach (DataRow dr in dtDataTable.Rows)
+            {
+                for (int i = 0; i < dtDataTable.Columns.Count; i++)
+                {
+                    if (!Convert.IsDBNull(dr[i]))
+                    {
+                        string value = dr[i].ToString();
+                        if (value.Contains(','))
+                        {
+                            value = string.Format("\"{0}\"", value);
+                            sw.Write(value);
+                        }
+                        else
+                        {
+                            sw.Write(dr[i].ToString());
+                        }
+                    }
+                    if (i < dtDataTable.Columns.Count - 1)
+                    {
+                        sw.Write(",");
+                    }
+                }
+                sw.Write(sw.NewLine);
+            }
+            sw.Close();
+        }
+
         private void btnNoticeView_Click(object sender, EventArgs e)
         {
             reportViewer1.LocalReport.ReportPath = Application.StartupPath.Split("bin")[0] + "RDLC\\rptNotices.rdlc";
-            
-            dsNotice ds = GetData();
+
+            string fromDate = dtpCSVDate.Value.ToString("yyyy-MM-dd");
+            string toDate = dtpToDate.Value.ToString("yyyy-MM-dd");
+            string centerName = cbxCenterNameRptPara.Text;
+
+            dsNotice ds = GetData(fromDate, toDate, centerName, Program.sStateCode);
             ReportDataSource datasource = new ReportDataSource("dt", ds.Tables[0]);
             this.reportViewer1.LocalReport.DataSources.Clear();
             this.reportViewer1.LocalReport.DataSources.Add(datasource);
@@ -130,13 +297,13 @@ namespace ESPNotice3._0.Forms
             
         }
 
-        private dsNotice GetData()
+        private dsNotice GetData(string fromDate, string toDate, string centerName, string stateCode)
         {
             string constr = DBAccess.ConnectionString;
 
             using (SqlConnection con = new SqlConnection(constr))
             {
-                using (SqlCommand cmd = new SqlCommand("EXEC GetNoticeReportData"))
+                using (SqlCommand cmd = new SqlCommand("EXEC GetNoticeReportData '" + fromDate + "', '" + toDate + "', '" + centerName + "', '" + stateCode + "'"))
                 {
                     using (SqlDataAdapter sda = new SqlDataAdapter())
                     {
@@ -144,6 +311,7 @@ namespace ESPNotice3._0.Forms
                         sda.SelectCommand = cmd;
                         using (dsNotice ds = new dsNotice())
                         {
+                            
                             sda.Fill(ds, "dtoNotice");
                             return ds;
                         }
@@ -154,7 +322,9 @@ namespace ESPNotice3._0.Forms
 
         private void LoadCenterDropdown()
         {
-            string sql = $"SELECT DISTINCT CenterCode,CenterName FROM CSV WHERE StateCode = '{Program.sStateCode}' ";
+            string sql = "SELECT CM.CenterCode,  CM.CenterName + '  -  (' + CM.Centercode +')'  AS CenterName FROM CenterMaster CM\r\nLEFT OUTER JOIN CSV ON CSV.CenterCode = CM.CenterCode\r\nGROUP BY CM.CenterCode, CM.CenterName";
+
+            //string sql = $"SELECT DISTINCT CenterCode,CenterName FROM CSV WHERE StateCode = '{Program.sStateCode}' ";
             DataTable dt = DBAccess.GetSelectByQuery(sql);
 
             cbxListCenter.DataSource = dt;

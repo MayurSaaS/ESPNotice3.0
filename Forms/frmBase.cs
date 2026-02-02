@@ -52,7 +52,7 @@ namespace ESPNotice3._0.Forms
 
         public string[] ctrls = { };
         public string[] Profile_ctrls = { "CompanyName*", "ContactName", "PhoneNumber", "FaxNumber", "EmailAddress", "Website", "Address", "Pincode" };
-        public string[] Centers_ctrls = { "CenterCode*", "CenterName*" };
+        public string[] Centers_ctrls = { "CenterCode*", "CenterName*", "StateCode*" };
         public string[] InvalidRegnNo_ctrls = { "REGN_NO" };
         public string[] Limits_ctrls = { "Wheels*", "Fuel*", "Compliance", "Model", "minCO", "minHC", "minSmoke" };
         public string[] NoticeFormat_ctrls = { "FormatName*", "LHeader", "CHeader", "RHeader", "Title", "InspectionCenter", "Notice" };
@@ -323,7 +323,7 @@ namespace ESPNotice3._0.Forms
             pro_ClearControl();
             if (iCode > 0)
             { btnSave.Text = "&Update"; btnSave.Enabled = true; }
-            else { btnSave.Text = "&Save"; btnSave.Enabled = false; }
+            else { btnSave.Text = "&Save"; btnSave.Enabled = true; }
         }
 
         #endregion
@@ -499,11 +499,15 @@ namespace ESPNotice3._0.Forms
             btnNew.Left = pnlGrid.Width - (btnNew.Width + btnEdit.Width + btnEdit.Top);
 
 
-            grbFormView.Width = tabControl.Width - 28;
+            //grbFormView.Width = tabControl.Width - 28;
+            //grbFormView.Height = tabControl.Height - (pnlSave.Height + 70);
+            //grbFormView.Left = 10;
+            //grbFormView.Top = 4;
 
-            grbFormView.Height = tabControl.Height - (pnlSave.Height + 70);
-            grbFormView.Left = 10;
-            grbFormView.Top = 4;
+            grbFormView.Width = tabControl.Width - 18;
+            grbFormView.Height = tabControl.Height - 50;
+            grbFormView.Left = 6;
+            grbFormView.Top = 0;
 
             pnlSave.Width = grbFormView.Width;
             pnlSave.Left = grbFormView.Left;

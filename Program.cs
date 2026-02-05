@@ -15,6 +15,7 @@ namespace ESPNotice3._0
         public static String sRoleName = String.Empty;
         public static string sStateCode = string.Empty;
         public static string sStateName = string.Empty;
+        public static decimal dRelaxed = 0;
 
         //Declaration for license related variables
         public static string productName = "ESPNotice3.0";

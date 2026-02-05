@@ -1228,8 +1228,8 @@
                 <TablixCell>
                   <CellContents>
                     <Image Name="Image1">
-                      <Source>Embedded</Source>
-                      <Value>n08102023_19070360_NOREAD_00</Value>
+                      <Source>External</Source>
+                      <Value>=Fields!VehImage.Value</Value>
                       <MIMEType>image/jpeg</MIMEType>
                       <Sizing>FitProportional</Sizing>
                       <ZIndex>1</ZIndex>

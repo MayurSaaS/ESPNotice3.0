@@ -38,7 +38,7 @@ namespace ESPNotice3._0
             lblLoginDatetime.Text = DateTime.Now.ToString("dd-MMM-yy HH:mm");
             lblMessage.Text = lblLoginDatetime.Text;
             lblUser.Text = Program.sUserName;
-            lblAppName.Text = $"Notice Management System 3.0 ({Program.sStateName})";
+            lblAppName.Text = $"Notice Management System 3.0 ({Program.sStateName + " - " + Program.dRelaxed.ToString().Replace(".00","") + "%"})";
             mnuDashboard_Click(sender, e);
         }
 

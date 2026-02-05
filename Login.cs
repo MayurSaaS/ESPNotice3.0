@@ -106,7 +106,9 @@ namespace ESPNotice3._0
                 if (checkLogin())
                 {
                     Program.sStateCode = cbxState.SelectedValue.ToString();
-                    Program.sStateName = cbxState.Text;
+                    Program.sStateName = cbxState.Text.Split(" - ")[0];
+                    Program.dRelaxed = Convert.ToDecimal(cbxState.Text.Split(" - ")[1].Replace("%",""));
+
                     Program.bLogin = true;
                     this.Hide();
                     Program.IsBindEvent = true;
@@ -162,7 +164,7 @@ namespace ESPNotice3._0
         }
         private void LoadStates()
         {
-            DataTable dt = DBAccess.GetSelectByQuery("SELECT StateCode, StateName FROM StateMaster WHERE Active = 1 ORDER BY StateName");
+            DataTable dt = DBAccess.GetSelectByQuery("SELECT StateCode, StateName + ' - ' + Replace(Convert(Varchar(5),RelaxedPer),'.00','') + '%' StateName FROM StateMaster WHERE Active = 1 ORDER BY StateName");
 
             // Create placeholder row
             DataRow dr = dt.NewRow();

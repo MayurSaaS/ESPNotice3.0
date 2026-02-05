@@ -108,7 +108,7 @@
             lblAppName.ForeColor = Color.FromArgb(41, 128, 185);
             lblAppName.Location = new Point(153, 12);
             lblAppName.Name = "lblAppName";
-            lblAppName.Size = new Size(591, 40);
+            lblAppName.Size = new Size(756, 40);
             lblAppName.TabIndex = 12;
             lblAppName.Text = "Notice Management System 3.0";
             lblAppName.TextAlign = ContentAlignment.MiddleLeft;

@@ -427,7 +427,7 @@ namespace ESPNotice3._0.Forms
 
                     if (!string.IsNullOrWhiteSpace(SelectedCenterName))
                     {
-                        conditions.Add($"CenterName = '{SelectedCenterName.Trim()}'");
+                        conditions.Add($"CenterName = (SELECT CenterName + '  -  (' + Centercode +')'  AS CenterName FROM CenterMaster Where CenterCode = '{SelectedCenterName.Trim()}')");
                     }
 
                     if (conditions.Count > 0)

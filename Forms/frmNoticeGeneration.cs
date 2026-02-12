@@ -219,7 +219,7 @@ namespace ESPNotice3._0.Forms
                 ExportCSV(dtExportCSV, monthlyPath + ".csv");
             }
 
-            //Day wise - RTO WISE
+            //Day wise
             string fromDateDaily =fromDate;
             string toDateDaily = toDate;
 
@@ -259,6 +259,58 @@ namespace ESPNotice3._0.Forms
                 ExportCSV(dtExportCSV, dailyPath + ".csv");
                 
             }
+            //Day wise - RTO WISE
+            string fromDateDailyRTO = fromDate;
+            string toDateDailyRTO = toDate;
+            string RTOCode = string.Empty;
+            string RTOName = string.Empty;
+
+            DataTable dt = DBAccess.GetDataTable("SELECT * FROM RTOGroups");
+
+            for (int i=0; i<dt.Rows.Count; i++)
+            {
+                RTOCode = Convert.ToString(dt.Rows[i]["Code"]);
+                RTOName = Convert.ToString(dt.Rows[i]["Name"]);
+
+                dsNotice dsDailyRTO = GetDataRTOWise(fromDateMonthly, toDateMonthly, centerName, RTOCode);
+                if (dsDailyRTO != null && dsDailyRTO.Tables.Count > 0)
+                {
+                    DataTable dtNoticeDailyRTO = dsDailyRTO.Tables[0];
+                    LocalReport report = new LocalReport();
+                    report.ReportPath = Application.StartupPath.Split("bin")[0] + "RDLC\\rptNotices.rdlc";
+                    report.EnableExternalImages = true;
+
+                    ReportDataSource datasource = new ReportDataSource("dt", dtNoticeDailyRTO);
+                    report.DataSources.Clear();
+                    report.DataSources.Add(datasource);
+                    // Render report to PDF
+                    byte[] pdfBytes = report.Render(
+                        "PDF",
+                        null,
+                        out string mimeType,
+                        out string encoding,
+                        out string fileNameExtension,
+                        out string[] streams,
+                        out Warning[] warnings
+                    );
+                    //2601_Notices
+                    string sfileNameDailyRTO = "RTOWise_" + RTOName + "_" + dtpFromDate.Value.ToString("yyMMdd");
+
+                    // Save file
+                    string dailyPath = sOutputFilePath + "\\" + Convert.ToDateTime(fromDate).ToString("dd") + "\\" + sfileNameDailyRTO;
+                    if (File.Exists(dailyPath + ".pdf"))
+                        File.Delete(dailyPath + ".pdf");
+                    if (File.Exists(dailyPath + ".csv"))
+                        File.Delete(dailyPath + ".csv");
+
+                    File.WriteAllBytes(dailyPath + ".pdf", pdfBytes);
+                    DataTable dtExportCSV = DBAccess.GetDataTable("SELECT * FROM NoticeData WHERE StateCode = '" + Program.sStateCode + "' AND CenterName = '" + centerName + "' AND IsValidRelaxed = 1 AND vdfDateTime BETWEEN '" + fromDateMonthly + "' AND '" + toDateMonthly + "'");
+                    ExportCSV(dtExportCSV, dailyPath + ".csv");
+
+                }
+            }
+
+            
 
 
         }
@@ -348,6 +400,27 @@ namespace ESPNotice3._0.Forms
             }
         }
 
+        private dsNotice GetDataRTOWise(string fromDate, string toDate, string centerName, string rtoCode)
+        {
+            string constr = DBAccess.ConnectionString;
+
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                using (SqlCommand cmd = new SqlCommand("EXEC GetNoticeReportData '" + fromDate + "', '" + toDate + "', '" + centerName + "', '" + Program.sStateCode + "'"))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter())
+                    {
+                        cmd.Connection = con;
+                        sda.SelectCommand = cmd;
+                        using (dsNotice ds = new dsNotice())
+                        {
+                            sda.Fill(ds, "dtoNotice");
+                            return ds;
+                        }
+                    }
+                }
+            }
+        }
         private void LoadCenterDropdown()
         {
             string sql = "SELECT CM.CenterCode,  CM.CenterName + '  -  (' + CM.Centercode +')'  AS CenterName FROM CenterMaster CM\r\nLEFT OUTER JOIN CSV ON CSV.CenterCode = CM.CenterCode\r\nGROUP BY CM.CenterCode, CM.CenterName";

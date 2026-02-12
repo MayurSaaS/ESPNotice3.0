@@ -30,11 +30,11 @@ namespace ESPNotice3._0.Forms
             if (!InputFilesPath.EndsWith("\\")) { InputFilesPath = InputFilesPath + "\\"; }
 
             InputFilesPath = InputFilesPath.Replace("{STATE}", Program.sStateCode);
-            InputFilesPath = InputFilesPath.Replace("{YEAR}", dtpCSVFile.Value.Year.ToString("yyyy"));
-            InputFilesPath = InputFilesPath.Replace("{MONTH}", dtpCSVFile.Value.Month.ToString("MM"));
-            InputFilesPath = InputFilesPath.Replace("{DATE}", dtpCSVFile.Value.ToString("yyyy-MM-dd"));
+            InputFilesPath = InputFilesPath.Replace("{YEAR}", dtpCSVFile.Value.Year.ToString());
+            InputFilesPath = InputFilesPath.Replace("{MONTH}", dtpCSVFile.Value.Month.ToString().PadLeft(2, '0'));
+            InputFilesPath = InputFilesPath.Replace("{DATE}", dtpCSVFile.Value.ToString("dd-MM-yyyy"));
             InputFilesPath = InputFilesPath.Replace("{CSVORPICS}", "CSVFiles");
-
+            
             return InputFilesPath;
         }
         private void frmImportTagEdit_Load(object sender, EventArgs e)

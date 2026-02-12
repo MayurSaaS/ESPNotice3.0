@@ -335,6 +335,16 @@ namespace ESPNotice3._0.DataSet {
             
             private global::System.Data.DataColumn columnVehImage;
             
+            private global::System.Data.DataColumn columnLessThanOneYear;
+            
+            private global::System.Data.DataColumn columnIsDuplicate;
+            
+            private global::System.Data.DataColumn columnRTOCode;
+            
+            private global::System.Data.DataColumn columnRTOName;
+            
+            private global::System.Data.DataColumn columnIsComm;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public dtoNoticeDataTable() {
@@ -588,6 +598,46 @@ namespace ESPNotice3._0.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn LessThanOneYearColumn {
+                get {
+                    return this.columnLessThanOneYear;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn IsDuplicateColumn {
+                get {
+                    return this.columnIsDuplicate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RTOCodeColumn {
+                get {
+                    return this.columnRTOCode;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RTONameColumn {
+                get {
+                    return this.columnRTOName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn IsCommColumn {
+                get {
+                    return this.columnIsComm;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -650,7 +700,12 @@ namespace ESPNotice3._0.DataSet {
                         string Smoke, 
                         string ReportAt, 
                         string AssDirTech, 
-                        string VehImage) {
+                        string VehImage, 
+                        string LessThanOneYear, 
+                        string IsDuplicate, 
+                        string RTOCode, 
+                        string RTOName, 
+                        string IsComm) {
                 dtoNoticeRow rowdtoNoticeRow = ((dtoNoticeRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         HeaderL1,
@@ -679,7 +734,12 @@ namespace ESPNotice3._0.DataSet {
                         Smoke,
                         ReportAt,
                         AssDirTech,
-                        VehImage};
+                        VehImage,
+                        LessThanOneYear,
+                        IsDuplicate,
+                        RTOCode,
+                        RTOName,
+                        IsComm};
                 rowdtoNoticeRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowdtoNoticeRow);
                 return rowdtoNoticeRow;
@@ -729,6 +789,11 @@ namespace ESPNotice3._0.DataSet {
                 this.columnReportAt = base.Columns["ReportAt"];
                 this.columnAssDirTech = base.Columns["AssDirTech"];
                 this.columnVehImage = base.Columns["VehImage"];
+                this.columnLessThanOneYear = base.Columns["LessThanOneYear"];
+                this.columnIsDuplicate = base.Columns["IsDuplicate"];
+                this.columnRTOCode = base.Columns["RTOCode"];
+                this.columnRTOName = base.Columns["RTOName"];
+                this.columnIsComm = base.Columns["IsComm"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -788,6 +853,16 @@ namespace ESPNotice3._0.DataSet {
                 base.Columns.Add(this.columnAssDirTech);
                 this.columnVehImage = new global::System.Data.DataColumn("VehImage", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnVehImage);
+                this.columnLessThanOneYear = new global::System.Data.DataColumn("LessThanOneYear", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnLessThanOneYear);
+                this.columnIsDuplicate = new global::System.Data.DataColumn("IsDuplicate", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnIsDuplicate);
+                this.columnRTOCode = new global::System.Data.DataColumn("RTOCode", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRTOCode);
+                this.columnRTOName = new global::System.Data.DataColumn("RTOName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRTOName);
+                this.columnIsComm = new global::System.Data.DataColumn("IsComm", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnIsComm);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1362,6 +1437,86 @@ namespace ESPNotice3._0.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string LessThanOneYear {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtoNotice.LessThanOneYearColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'LessThanOneYear\' in table \'dtoNotice\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtoNotice.LessThanOneYearColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string IsDuplicate {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtoNotice.IsDuplicateColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'IsDuplicate\' in table \'dtoNotice\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtoNotice.IsDuplicateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string RTOCode {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtoNotice.RTOCodeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RTOCode\' in table \'dtoNotice\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtoNotice.RTOCodeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string RTOName {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtoNotice.RTONameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RTOName\' in table \'dtoNotice\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtoNotice.RTONameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string IsComm {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtoNotice.IsCommColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'IsComm\' in table \'dtoNotice\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtoNotice.IsCommColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsHeaderL1Null() {
                 return this.IsNull(this.tabledtoNotice.HeaderL1Column);
             }
@@ -1682,6 +1837,66 @@ namespace ESPNotice3._0.DataSet {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetVehImageNull() {
                 this[this.tabledtoNotice.VehImageColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsLessThanOneYearNull() {
+                return this.IsNull(this.tabledtoNotice.LessThanOneYearColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetLessThanOneYearNull() {
+                this[this.tabledtoNotice.LessThanOneYearColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsIsDuplicateNull() {
+                return this.IsNull(this.tabledtoNotice.IsDuplicateColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetIsDuplicateNull() {
+                this[this.tabledtoNotice.IsDuplicateColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRTOCodeNull() {
+                return this.IsNull(this.tabledtoNotice.RTOCodeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRTOCodeNull() {
+                this[this.tabledtoNotice.RTOCodeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRTONameNull() {
+                return this.IsNull(this.tabledtoNotice.RTONameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRTONameNull() {
+                this[this.tabledtoNotice.RTONameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsIsCommNull() {
+                return this.IsNull(this.tabledtoNotice.IsCommColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetIsCommNull() {
+                this[this.tabledtoNotice.IsCommColumn] = global::System.Convert.DBNull;
             }
         }
         

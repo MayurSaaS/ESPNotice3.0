@@ -39,7 +39,7 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=Fields!NoticeNo.Value</Value>
+                              <Value>=Fields!NoticeNo.Value + "/" + Fields!RTOName.Value</Value>
                               <Style>
                                 <FontFamily>Times New Roman</FontFamily>
                                 <FontSize>12pt</FontSize>
@@ -87,7 +87,7 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=Format(CDate(First(Fields!NoticeDate.Value, "dt")), "dd MMM, yyyy")</Value>
+                              <Value>=Format(DateValue(First(Fields!NoticeDate.Value, "dt")), "dd MMM, yyyy")</Value>
                               <Style>
                                 <FontFamily>Times New Roman</FontFamily>
                                 <FontSize>12pt</FontSize>
@@ -2546,7 +2546,6 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox2</rd:DefaultName>
-          <Top>0cm</Top>
           <Height>0.2in</Height>
           <Width>2.26667in</Width>
           <ZIndex>1</ZIndex>
@@ -2619,7 +2618,6 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox2</rd:DefaultName>
-          <Top>0cm</Top>
           <Left>5.245in</Left>
           <Height>0.2in</Height>
           <Width>2.35in</Width>

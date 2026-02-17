@@ -263,7 +263,7 @@ namespace ESPNotice3._0.Forms
                 //}
 
                 //LESS THAN ONE YEAR - RTO WISE
-                dsNotice dsDailyLessThanOneYearRTO = GetDataRTOWise(fromDate, toDate, centerName, RTOCode, null, false, false, false);
+                dsNotice dsDailyLessThanOneYearRTO = GetDataRTOWise(fromDate, toDate, centerName, RTOCode, null, true, false, false);
                 if (dsDailyLessThanOneYearRTO != null && dsDailyLessThanOneYearRTO.Tables.Count > 0)
                 {
                     string sfileNameDailyRTO = "RTOWise_" + RTOName + "_LTOY_" + dtpFromDate.Value.ToString("yyMMdd");

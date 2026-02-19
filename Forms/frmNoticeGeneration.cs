@@ -205,7 +205,7 @@ namespace ESPNotice3._0.Forms
             if (dsMonthlyDuplicate != null && dsMonthlyDuplicate.Tables.Count > 0)
             {
                 string sfileName = Convert.ToDateTime(fromDate).Year.ToString().Substring(2, 2) + Convert.ToDateTime(fromDate).Month.ToString().PadLeft(2, '0') + "_Notices";
-                string sfilePath = sOutputFilePath + "\\Duplicate\\" ;
+                string sfilePath = sOutputFilePath + "Duplicate\\" ;
                 ExportPDF_CSV(dsMonthlyDuplicate, sfilePath, sfileName);
             }
 
@@ -213,8 +213,8 @@ namespace ESPNotice3._0.Forms
             dsNotice dsOther = GetDataRTOWise(fromDate, toDate, centerName, RTOCode, null, false, false, true);
             if (dsOther != null && dsOther.Tables.Count > 0)
             {
-                string sfileNameDailyOthers = dtpFromDate.Value.ToString("yyMMdd") + "_Notices";
-                string sfilePath = sOutputFilePath + "\\" + Convert.ToDateTime(fromDate).ToString("dd") + "\\Others\\" ;
+                string sfileNameDailyOthers = Convert.ToDateTime(fromDate).ToString("yyMMdd") + "_Notices";
+                string sfilePath = sOutputFilePath + Convert.ToDateTime(fromDate).ToString("dd") + "\\Others\\" ;
                 ExportPDF_CSV(dsOther, sfilePath, sfileNameDailyOthers);
             }
 
@@ -222,8 +222,8 @@ namespace ESPNotice3._0.Forms
             dsNotice dsDaily = GetDataRTOWise(fromDate, toDate, centerName, RTOCode, null, false, false, false);
             if (dsDaily != null && dsDaily.Tables.Count > 0)
             {
-                string sfileNameDaily = dtpFromDate.Value.ToString("yyMMdd") + "_Notices";
-                string sfilePath = sOutputFilePath + "\\" + Convert.ToDateTime(fromDate).ToString("dd") + "\\" ;
+                string sfileNameDaily = Convert.ToDateTime(fromDate).ToString("yyMMdd") + "_Notices";
+                string sfilePath = sOutputFilePath + Convert.ToDateTime(fromDate).ToString("dd") + "\\" ;
                 ExportPDF_CSV(dsDaily, sfilePath, sfileNameDaily);
             }
 
@@ -239,8 +239,8 @@ namespace ESPNotice3._0.Forms
                 dsNotice dsDailyRTO = GetDataRTOWise(fromDate, toDate, centerName, RTOCode, null, false, false, false);
                 if (dsDailyRTO != null && dsDailyRTO.Tables.Count > 0)
                 {
-                    string sfileNameDailyRTO = "RTOWise_" + RTOName + "_" + dtpFromDate.Value.ToString("yyMMdd");
-                    string sfilePath = sOutputFilePath + "\\" + Convert.ToDateTime(fromDate).ToString("dd") + "\\RTOWise\\" + RTOName + "\\";
+                    string sfileNameDailyRTO = "RTOWise_" + RTOName + "_" + Convert.ToDateTime(fromDate).ToString("yyMMdd");
+                    string sfilePath = sOutputFilePath + Convert.ToDateTime(fromDate).ToString("dd") + "\\RTOWise\\" + RTOName + "\\";
                     ExportPDF_CSV(dsDailyRTO, sfilePath, sfileNameDailyRTO);
                 }
 
@@ -248,7 +248,7 @@ namespace ESPNotice3._0.Forms
                 //dsNotice dsDailyRTOComm = GetDataRTOWise(fromDate, toDate, centerName, RTOCode, true, false, false, false);
                 //if (dsDailyRTOComm != null && dsDailyRTOComm.Tables.Count > 0)
                 //{
-                //    string sfileName = "RTOWise_" + RTOName + "_COMM_" + dtpFromDate.Value.ToString("yyMMdd");
+                //    string sfileName = "RTOWise_" + RTOName + "_COMM_" + Convert.ToDateTime(fromDate).ToString("yyMMdd");
                 //    string sfilePath = sOutputFilePath + "\\" + Convert.ToDateTime(fromDate).ToString("dd") + "\\RTOWise\\" + RTOName + "\\" ;
                 //    ExportPDF_CSV(dsDailyRTOComm, sfilePath, sfileName);
                 //}
@@ -257,7 +257,7 @@ namespace ESPNotice3._0.Forms
                 //dsNotice dsDailyRTONonComm = GetDataRTOWise(fromDate, toDate, centerName, RTOCode, false, false, false, false);
                 //if (dsDailyRTONonComm != null && dsDailyRTONonComm.Tables.Count > 0)
                 //{
-                //    string sfileName = "RTOWise_" + RTOName + "_NONCOMM_" + dtpFromDate.Value.ToString("yyMMdd");
+                //    string sfileName = "RTOWise_" + RTOName + "_NONCOMM_" + Convert.ToDateTime(fromDate).ToString("yyMMdd");
                 //    string sfilePath = sOutputFilePath + "\\" + Convert.ToDateTime(fromDate).ToString("dd") + "\\RTOWise\\" + RTOName + "\\" ;
                 //    ExportPDF_CSV(dsDailyRTONonComm, sfilePath, sfileName);
                 //}
@@ -266,8 +266,8 @@ namespace ESPNotice3._0.Forms
                 dsNotice dsDailyLessThanOneYearRTO = GetDataRTOWise(fromDate, toDate, centerName, RTOCode, null, true, false, false);
                 if (dsDailyLessThanOneYearRTO != null && dsDailyLessThanOneYearRTO.Tables.Count > 0)
                 {
-                    string sfileNameDailyRTO = "RTOWise_" + RTOName + "_LTOY_" + dtpFromDate.Value.ToString("yyMMdd");
-                    string sfilePath = sOutputFilePath + "\\" + Convert.ToDateTime(fromDate).ToString("dd") + "\\LessThanOneYear\\RTOWise\\" + RTOName + "\\" ;
+                    string sfileNameDailyRTO = "RTOWise_" + RTOName + "_LTOY_" + Convert.ToDateTime(fromDate).ToString("yyMMdd");
+                    string sfilePath = sOutputFilePath + Convert.ToDateTime(fromDate).ToString("dd") + "\\LessThanOneYear\\RTOWise\\" + RTOName + "\\" ;
                     ExportPDF_CSV(dsDailyLessThanOneYearRTO, sfilePath, sfileNameDailyRTO);
                 }
 
@@ -275,8 +275,8 @@ namespace ESPNotice3._0.Forms
                 //dsNotice dsLessThanOneYearRTOComm = GetDataRTOWise(fromDate, toDate, centerName, RTOCode, true, false, false, false);
                 //if (dsLessThanOneYearRTOComm != null && dsLessThanOneYearRTOComm.Tables.Count > 0)
                 //{
-                //    string sfileName = "RTOWise_" + RTOName + "_LTOY_COMM_" + dtpFromDate.Value.ToString("yyMMdd");
-                //    string sfilePath = sOutputFilePath + "\\" + Convert.ToDateTime(fromDate).ToString("dd") + "\\LessThanOneYear\\RTOWise\\" + RTOName + "\\" ;
+                //    string sfileName = "RTOWise_" + RTOName + "_LTOY_COMM_" + Convert.ToDateTime(fromDate).ToString("yyMMdd");
+                //    string sfilePath = sOutputFilePath + Convert.ToDateTime(fromDate).ToString("dd") + "\\LessThanOneYear\\RTOWise\\" + RTOName + "\\" ;
                 //    ExportPDF_CSV(dsLessThanOneYearRTOComm, sfilePath, sfileName);
                 //}
 
@@ -284,8 +284,8 @@ namespace ESPNotice3._0.Forms
                 //dsNotice dsLessThanOneYearRTONonComm = GetDataRTOWise(fromDate, toDate, centerName, RTOCode, false, false, false, false);
                 //if (dsLessThanOneYearRTONonComm != null && dsLessThanOneYearRTONonComm.Tables.Count > 0)
                 //{
-                //    string sfileName = "RTOWise_" + RTOName + "_LTOY_NONCOMM_" + dtpFromDate.Value.ToString("yyMMdd");
-                //    string sfilePath = sOutputFilePath + "\\" + Convert.ToDateTime(fromDate).ToString("dd") + "\\LessThanOneYear\\RTOWise\\" + RTOName + "\\" ;
+                //    string sfileName = "RTOWise_" + RTOName + "_LTOY_NONCOMM_" + Convert.ToDateTime(fromDate).ToString("yyMMdd");
+                //    string sfilePath = sOutputFilePath + Convert.ToDateTime(fromDate).ToString("dd") + "\\LessThanOneYear\\RTOWise\\" + RTOName + "\\" ;
                 //    ExportPDF_CSV(dsLessThanOneYearRTONonComm, sfilePath, sfileName);
                 //}
                 //DUPLICATE
@@ -293,7 +293,7 @@ namespace ESPNotice3._0.Forms
                 if (dsMonthlyDuplicateRTO != null && dsMonthlyDuplicateRTO.Tables.Count > 0)
                 {
                     string sfileName = Convert.ToDateTime(fromDate).Year.ToString().Substring(2, 2) + Convert.ToDateTime(fromDate).Month.ToString().PadLeft(2, '0') + "_Notices";
-                    string sfilePath = sOutputFilePath + "\\Duplicate\\RTOWise\\" + RTOName + "\\";
+                    string sfilePath = sOutputFilePath + "Duplicate\\RTOWise\\" + RTOName + "\\";
                     ExportPDF_CSV(dsMonthlyDuplicateRTO, sfilePath, sfileName);
                 }
 

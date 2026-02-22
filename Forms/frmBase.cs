@@ -9,6 +9,7 @@ using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ESPNotice3._0.Forms
 {
@@ -46,6 +47,7 @@ namespace ESPNotice3._0.Forms
         bool IsEdit = false;
 
         string strTableName = "";
+        public string strCenterCode = "";
         public string strCSVFileDate = "";
         public string strFromCSVFileDate = "";
         public string strToCSVFileDate = "";
@@ -385,10 +387,10 @@ namespace ESPNotice3._0.Forms
             {
                 sQry = "SELECT TOP 20 * FROM " + strTableName;
             }
-                
+
             else if (this.Name == "frmHistoryTagEditData")
             {
-                if(!string.IsNullOrWhiteSpace(tbxSearch.Text))
+                if (!string.IsNullOrWhiteSpace(tbxSearch.Text))
                 {
                     sQry = "SELECT * FROM " + strTableName + " WHERE date BETWEEN '" + strFromCSVFileDate + "' AND '" + strToCSVFileDate + "'" + " AND (CenterName = '" + tbxSearch.Text + "' OR CenterCode = '" + tbxSearch.Text + "')";
                 }
@@ -397,15 +399,15 @@ namespace ESPNotice3._0.Forms
                     sQry = "SELECT * FROM " + strTableName + " WHERE date BETWEEN '" + strFromCSVFileDate + "' AND '" + strToCSVFileDate + "'";
                 }
             }
-                
+
             else if (this.Name == "frmViewTagEditData")
             {
                 sQry = "SELECT * FROM " + strTableName + " WHERE vdfDateTime = '" + strCSVFileDate + "'";
             }
-            
+
             else if (this.Name == "frmNoticeGeneration")
             {
-                if(isSearchClick)
+                if (isSearchClick)
                 {
                     if ((string.IsNullOrWhiteSpace(SelectedCenterName) && string.IsNullOrWhiteSpace(tbxSearch.Text)))
                     {
@@ -434,7 +436,7 @@ namespace ESPNotice3._0.Forms
                     {
                         sQry += " WHERE " + string.Join(" AND ", conditions);
                     }
-                    
+
                 }
 
             }
@@ -443,9 +445,12 @@ namespace ESPNotice3._0.Forms
             {
                 sQry = "SELECT * FROM " + strTableName;
             }
-                
+
 
             DataTable dt = DBAccess.GetDataTable(sQry);
+            if (dt != null && dt.Rows.Count > 0)
+                lblTotalRecordsValue.Text = dt.Rows.Count.ToString() + " Records";
+
             if (this.Controls.Find("dgvGrid", true).Length != 0 && this.Controls.Find("dgvGrid", true)[0].Visible)
             {
                 dgvGrid.DataSource = dt;
@@ -537,9 +542,15 @@ namespace ESPNotice3._0.Forms
             {
                 if (this.Controls.Find("lbl" + ctrl.Replace("*", ""), true).Length > 0)
                 {
+                    if (this.Controls.Find("lbl" + ctrl.Replace("*", ""), true).Length > 0)
+                        break;
+                    if (this.Controls.Find("tbx" + ctrl.Replace("*", ""), true).Length > 0)
+                        break;
+
                     Label lbl = (Label)this.Controls.Find("lbl" + ctrl.Replace("*", ""), true)[0];
-                    TextBox tbx = (TextBox)this.Controls.Find("tbx" + ctrl.Replace("*", ""), true)[0];
-                    if (tbx.Name.Contains("Password"))
+                    System.Windows.Forms.TextBox tbx = (System.Windows.Forms.TextBox)this.Controls.Find("tbx" + ctrl.Replace("*", ""), true)[0];
+
+                    if (tbx != null && tbx.Name.Contains("Password"))
                         tbx.PasswordChar = '*';
 
                     if (intCol == 1)
@@ -601,6 +612,34 @@ namespace ESPNotice3._0.Forms
 
 
 
-        
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(strCSVFileDate))
+            {
+                MessageBox.Show("Validation: CSV file date should not be blank" , Program.sMsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else if (string.IsNullOrEmpty(strCenterCode))
+            {
+                MessageBox.Show("Validation: Center Code should not be blank", Program.sMsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            string sQry = string.Empty;
+            if (this.Name == "frmViewTagEditData")
+            {
+                sQry = "DELETE FROM " + strTableName + " WHERE vdfDateTime = '" + strCSVFileDate + "' AND CenterCode = '" + strCenterCode + "'";
+            }
+
+            try
+            {
+                DBAccess.ExecuteQuery(sQry);
+                MessageBox.Show(strMsgUpdate, Program.sMsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Information); 
+                pro_LoadGrid();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error-Execution:" + ex.ToString(), Program.sMsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }//Class
 }//Namespace

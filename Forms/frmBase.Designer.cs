@@ -36,6 +36,9 @@ namespace ESPNotice3._0.Forms
             tbxSearch = new TextBox();
             btnSearch = new Button();
             pnlGrid = new Panel();
+            btnDelete = new Button();
+            lblTotalRecordsValue = new Label();
+            lblTotalRecords = new Label();
             btnNew = new Button();
             btnEdit = new Button();
             dgvGrid = new DataGridView();
@@ -134,12 +137,47 @@ namespace ESPNotice3._0.Forms
             // 
             // pnlGrid
             // 
+            pnlGrid.Controls.Add(btnDelete);
+            pnlGrid.Controls.Add(lblTotalRecordsValue);
+            pnlGrid.Controls.Add(lblTotalRecords);
             pnlGrid.Controls.Add(btnNew);
             pnlGrid.Controls.Add(btnEdit);
             pnlGrid.Location = new Point(30, 539);
             pnlGrid.Name = "pnlGrid";
             pnlGrid.Size = new Size(1269, 70);
             pnlGrid.TabIndex = 2;
+            // 
+            // btnDelete
+            // 
+            btnDelete.BackColor = Color.FromArgb(41, 128, 185);
+            btnDelete.FlatStyle = FlatStyle.Flat;
+            btnDelete.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnDelete.ForeColor = Color.White;
+            btnDelete.Location = new Point(767, 17);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(150, 40);
+            btnDelete.TabIndex = 18;
+            btnDelete.Text = "&Delete";
+            btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Visible = false;
+            btnDelete.Click += btnDelete_Click;
+            // 
+            // lblTotalRecordsValue
+            // 
+            lblTotalRecordsValue.Location = new Point(115, 25);
+            lblTotalRecordsValue.Name = "lblTotalRecordsValue";
+            lblTotalRecordsValue.Size = new Size(285, 27);
+            lblTotalRecordsValue.TabIndex = 17;
+            lblTotalRecordsValue.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // lblTotalRecords
+            // 
+            lblTotalRecords.Location = new Point(3, 25);
+            lblTotalRecords.Name = "lblTotalRecords";
+            lblTotalRecords.Size = new Size(106, 27);
+            lblTotalRecords.TabIndex = 16;
+            lblTotalRecords.Text = "Total Records:";
+            lblTotalRecords.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // btnNew
             // 
@@ -348,5 +386,8 @@ namespace ESPNotice3._0.Forms
         public TabPage tabGridView;
         public Panel pnlSearch;
         public Button btnNew;
+        public Label lblTotalRecordsValue;
+        private Label lblTotalRecords;
+        public Button btnDelete;
     }
 }

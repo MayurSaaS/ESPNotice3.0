@@ -35,6 +35,8 @@
         {
             lblCSVFileDate = new Label();
             dtpCSVFileDate = new DateTimePicker();
+            cbxCenterName = new ComboBox();
+            lblCenterName = new Label();
             tabControl.SuspendLayout();
             grbGridView.SuspendLayout();
             tabGridView.SuspendLayout();
@@ -47,16 +49,20 @@
             // 
             // pnlSearch
             // 
+            pnlSearch.Controls.Add(cbxCenterName);
+            pnlSearch.Controls.Add(lblCenterName);
             pnlSearch.Controls.Add(dtpCSVFileDate);
             pnlSearch.Controls.Add(lblCSVFileDate);
             pnlSearch.Controls.SetChildIndex(btnSearch, 0);
             pnlSearch.Controls.SetChildIndex(tbxSearch, 0);
             pnlSearch.Controls.SetChildIndex(lblCSVFileDate, 0);
             pnlSearch.Controls.SetChildIndex(dtpCSVFileDate, 0);
+            pnlSearch.Controls.SetChildIndex(lblCenterName, 0);
+            pnlSearch.Controls.SetChildIndex(cbxCenterName, 0);
             // 
             // lblCSVFileDate
             // 
-            lblCSVFileDate.Location = new Point(421, 23);
+            lblCSVFileDate.Location = new Point(413, 23);
             lblCSVFileDate.Name = "lblCSVFileDate";
             lblCSVFileDate.Size = new Size(110, 25);
             lblCSVFileDate.TabIndex = 2;
@@ -66,11 +72,28 @@
             // 
             dtpCSVFileDate.CustomFormat = "dd-MMM-yyyy";
             dtpCSVFileDate.Format = DateTimePickerFormat.Custom;
-            dtpCSVFileDate.Location = new Point(533, 22);
+            dtpCSVFileDate.Location = new Point(525, 22);
             dtpCSVFileDate.Name = "dtpCSVFileDate";
-            dtpCSVFileDate.Size = new Size(157, 27);
+            dtpCSVFileDate.Size = new Size(134, 27);
             dtpCSVFileDate.TabIndex = 3;
             dtpCSVFileDate.ValueChanged += dtpCSVFileDate_ValueChanged;
+            // 
+            // cbxCenterName
+            // 
+            cbxCenterName.FormattingEnabled = true;
+            cbxCenterName.Location = new Point(774, 22);
+            cbxCenterName.Name = "cbxCenterName";
+            cbxCenterName.Size = new Size(306, 28);
+            cbxCenterName.TabIndex = 17;
+            // 
+            // lblCenterName
+            // 
+            lblCenterName.Location = new Point(674, 22);
+            lblCenterName.Name = "lblCenterName";
+            lblCenterName.Size = new Size(100, 27);
+            lblCenterName.TabIndex = 16;
+            lblCenterName.Text = "Center Name";
+            lblCenterName.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // frmViewTagEditData
             // 
@@ -79,6 +102,7 @@
             ClientSize = new Size(1338, 750);
             Name = "frmViewTagEditData";
             Text = "View TagEdit Data";
+            FormClosing += frmViewTagEditData_FormClosing;
             Load += frmViewTagEditData_Load;
             tabControl.ResumeLayout(false);
             grbGridView.ResumeLayout(false);
@@ -92,5 +116,7 @@
 
         private DateTimePicker dtpCSVFileDate;
         private Label lblCSVFileDate;
+        private ComboBox cbxCenterName;
+        private Label lblCenterName;
     }
 }

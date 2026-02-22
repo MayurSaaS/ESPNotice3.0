@@ -201,7 +201,7 @@ namespace ESPNotice3._0.Forms
             }
 
             //DUPLICATE
-            dsNotice dsMonthlyDuplicate = GetDataRTOWise(fromDateMonthly, toDateMonthly, centerName, RTOCode, null, false, true, false);
+            dsNotice dsMonthlyDuplicate = GetDataRTOWise(fromDateMonthly, toDateMonthly, null, null, null, false, true, false);
             if (dsMonthlyDuplicate != null && dsMonthlyDuplicate.Tables.Count > 0)
             {
                 string sfileName = Convert.ToDateTime(fromDate).Year.ToString().Substring(2, 2) + Convert.ToDateTime(fromDate).Month.ToString().PadLeft(2, '0') + "_Notices";
@@ -289,13 +289,13 @@ namespace ESPNotice3._0.Forms
                 //    ExportPDF_CSV(dsLessThanOneYearRTONonComm, sfilePath, sfileName);
                 //}
                 //DUPLICATE
-                dsNotice dsMonthlyDuplicateRTO = GetDataRTOWise(fromDateMonthly, toDateMonthly, centerName, RTOCode, null, false, true, false);
-                if (dsMonthlyDuplicateRTO != null && dsMonthlyDuplicateRTO.Tables.Count > 0)
-                {
-                    string sfileName = Convert.ToDateTime(fromDate).Year.ToString().Substring(2, 2) + Convert.ToDateTime(fromDate).Month.ToString().PadLeft(2, '0') + "_Notices";
-                    string sfilePath = sOutputFilePath + "Duplicate\\RTOWise\\" + RTOName + "\\";
-                    ExportPDF_CSV(dsMonthlyDuplicateRTO, sfilePath, sfileName);
-                }
+                //dsNotice dsMonthlyDuplicateRTO = GetDataRTOWise(fromDateMonthly, toDateMonthly, centerName, RTOCode, null, false, true, false);
+                //if (dsMonthlyDuplicateRTO != null && dsMonthlyDuplicateRTO.Tables.Count > 0)
+                //{
+                //    string sfileName = Convert.ToDateTime(fromDate).Year.ToString().Substring(2, 2) + Convert.ToDateTime(fromDate).Month.ToString().PadLeft(2, '0') + "_Notices";
+                //    string sfilePath = sOutputFilePath + "Duplicate\\RTOWise\\" + RTOName + "\\";
+                //    ExportPDF_CSV(dsMonthlyDuplicateRTO, sfilePath, sfileName);
+                //}
 
             }
 
@@ -303,10 +303,12 @@ namespace ESPNotice3._0.Forms
 
         private void ExportPDF_CSV(dsNotice dtSource, string sFilePath, string sfileName)
         {
+            string sFilePathPDF = sFilePath.Replace("OUTPUTFILES", "OUTPUTFILES\\PDF");
+            string sFilePathCSV= sFilePath.Replace("OUTPUTFILES", "OUTPUTFILES\\CSV");
             DataTable dtExportPDF = dtSource.Tables["Table"];
             DataTable dtExportCSV = dtSource.Tables["Table1"];
-            ExportPDF(dtExportPDF, sFilePath + "PDF\\" + sfileName + ".pdf");
-            ExportCSV(dtExportCSV, sFilePath + "CSV\\" + sfileName + ".csv");
+            ExportPDF(dtExportPDF, sFilePathPDF + sfileName + ".pdf");
+            ExportCSV(dtExportCSV, sFilePathCSV + sfileName + ".csv");
         }
         private void ExportPDF(DataTable dtSource, string strFilePath)
         {

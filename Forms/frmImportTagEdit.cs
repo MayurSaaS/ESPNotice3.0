@@ -32,7 +32,7 @@ namespace ESPNotice3._0.Forms
             InputFilesPath = InputFilesPath.Replace("{STATE}", Program.sStateCode);
             InputFilesPath = InputFilesPath.Replace("{YEAR}", dtpCSVFile.Value.Year.ToString());
             InputFilesPath = InputFilesPath.Replace("{MONTH}", dtpCSVFile.Value.Month.ToString().PadLeft(2, '0'));
-            InputFilesPath = InputFilesPath.Replace("{DATE}", dtpCSVFile.Value.ToString("dd-MM-yyyy"));
+            InputFilesPath = InputFilesPath.Replace("{DATE}", dtpCSVFile.Value.ToString("yyyy-MM-dd"));
             InputFilesPath = InputFilesPath.Replace("{CSVORPICS}", "CSVFiles");
             
             return InputFilesPath;

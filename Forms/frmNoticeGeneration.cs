@@ -341,6 +341,8 @@ namespace ESPNotice3._0.Forms
         }
         private void ExportCSV(DataTable dtSource, string strFilePath)
         {
+            if (dtSource == null && dtSource.Rows.Count <= 0) { return; }
+
             string directoryPath = Path.GetDirectoryName(strFilePath);
             Directory.CreateDirectory(directoryPath);
 

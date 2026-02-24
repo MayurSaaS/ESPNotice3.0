@@ -87,7 +87,7 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=Format(DateValue(First(Fields!NoticeDate.Value, "dt")), "dd MMM, yyyy")</Value>
+                              <Value>=Format(DateValue(Fields!NoticeDate.Value), "dd MMM, yyyy")</Value>
                               <Style>
                                 <FontFamily>Times New Roman</FontFamily>
                                 <FontSize>12pt</FontSize>
@@ -353,6 +353,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -2273,7 +2274,6 @@
                       <PaddingBottom>1pt</PaddingBottom>
                     </Style>
                   </Textbox>
-                  <rd:Selected>true</rd:Selected>
                 </CellContents>
               </TablixHeader>
               <TablixMembers>

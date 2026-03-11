@@ -38,7 +38,7 @@ namespace ESPNotice3._0
             lblLoginDatetime.Text = DateTime.Now.ToString("dd-MMM-yy HH:mm");
             lblMessage.Text = lblLoginDatetime.Text;
             lblUser.Text = Program.sUserName;
-            lblAppName.Text = $"Notice Management System 3.0 ({Program.sStateName + " - " + Program.dRelaxed.ToString().Replace(".00","") + "%"})";
+            lblAppName.Text = $"Notice Management System 3.0 ({Program.sStateName + " - " + Program.dRelaxed.ToString().Replace(".00", "") + "%"})";
             mnuDashboard_Click(sender, e);
         }
 
@@ -153,6 +153,14 @@ namespace ESPNotice3._0
             _frmViewTagEditData.MdiParent = this;
             _frmViewTagEditData.Show();
             _frmViewTagEditData.Activate();
+        }
+
+        private void mnuUtilitiesCSV_Click(object sender, EventArgs e)
+        {
+            frmLockingCSV _frmLockingCSV = frmLockingCSV.Instance();
+            _frmLockingCSV.MdiParent = this;
+            _frmLockingCSV.Show();
+            _frmLockingCSV.Activate();
         }
     }//Class
 }//Namespace

@@ -235,6 +235,17 @@ namespace ESPNotice3._0.Forms
                 RTOCode = Convert.ToString(dt.Rows[i]["Code"]);
                 RTOName = Convert.ToString(dt.Rows[i]["Name"]);
 
+                //RTO WISE - Locking
+                dsNotice dsRTOLocking = GetRTOWiseLockingData(fromDate, toDate, centerName,RTOCode, null, false, false, false);
+                if (dsRTOLocking != null && dsRTOLocking.Tables.Count > 0) 
+                {
+                    string sfileNameDailyRTOLocking = "RTOWise_" + RTOName + "_Locking_" + Convert.ToDateTime(fromDate).ToString("yyMMdd");
+                    string sfilePath = sOutputFilePath + Convert.ToDateTime(fromDate).ToString("dd") + "\\RTOWise\\" + RTOName + "\\";
+                    string sFilePathCSV = sfilePath.Replace("OUTPUTFILES", "OUTPUTFILES\\CSV");
+                    DataTable dtExportCSV = dsRTOLocking.Tables["Table"];
+                    ExportCSV(dtExportCSV, sFilePathCSV + sfileNameDailyRTOLocking + ".csv");
+                }
+
                 //RTO WISE
                 dsNotice dsDailyRTO = GetDataRTOWise(fromDate, toDate, centerName, RTOCode, null, false, false, false);
                 if (dsDailyRTO != null && dsDailyRTO.Tables.Count > 0)
@@ -480,6 +491,55 @@ namespace ESPNotice3._0.Forms
             //    }
             //}
         }
+
+        private dsNotice GetRTOWiseLockingData(string fromDate, string toDate, string centerName, string rtoCode, bool? IsComm = null, bool LessThanOneYear = false, bool IsDuplicate = false, bool IsOther = false)
+        {
+            string constr = DBAccess.ConnectionString;
+
+            using (SqlConnection conn = new SqlConnection(constr))
+            {
+                using (SqlCommand cmd = new SqlCommand("GetRTOWiseLockingData", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@FromDate", fromDate);
+                    cmd.Parameters.AddWithValue("@ToDate", toDate);
+                    cmd.Parameters.AddWithValue("@CenterName", centerName);
+                    cmd.Parameters.AddWithValue("@StateCode", Program.sStateCode);
+                    cmd.Parameters.AddWithValue("@RtoCode", rtoCode);
+
+                    cmd.Parameters.AddWithValue("@IsComm", (object)IsComm ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@LessThanOneYear", LessThanOneYear);
+                    cmd.Parameters.AddWithValue("@IsDuplicate", IsDuplicate);
+                    cmd.Parameters.AddWithValue("@IsOther", IsOther);
+
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    dsNotice ds = new dsNotice();
+                    conn.Open();
+                    da.Fill(ds);
+                    return ds;
+                }
+            }
+
+            //using (SqlConnection con = new SqlConnection(constr))
+            //{
+            //    string sQry = "EXEC GetNoticeReportData '" + fromDate + "', '" + toDate + "', '" + centerName + "', '" + Program.sStateCode + "', '" + rtoCode + "', " + IsComm + ", " + LessThanOneYear + ", " + IsDuplicate + ", " + IsOther + "";
+            //    using (SqlCommand cmd = new SqlCommand(sQry))
+            //    {
+            //        using (SqlDataAdapter sda = new SqlDataAdapter())
+            //        {
+            //            cmd.Connection = con;
+            //            sda.SelectCommand = cmd;
+            //            using (dsNotice ds = new dsNotice())
+            //            {
+            //                sda.Fill(ds, "dtoNotice");
+            //                return ds;
+            //            }
+            //        }
+            //    }
+            //}
+        }
+
         private void LoadCenterDropdown()
         {
             string sql = "SELECT CM.CenterCode,  CM.CenterName + '  -  (' + CM.Centercode +')'  AS CenterName FROM CenterMaster CM\r\nLEFT OUTER JOIN CSV ON CSV.CenterCode = CM.CenterCode\r\nGROUP BY CM.CenterCode, CM.CenterName";

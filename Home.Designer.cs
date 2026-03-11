@@ -270,8 +270,9 @@
             mnuUtilitiesCSV.ForeColor = Color.FromArgb(41, 128, 185);
             mnuUtilitiesCSV.Image = Properties.Resources.icons8_csv_100;
             mnuUtilitiesCSV.Name = "mnuUtilitiesCSV";
-            mnuUtilitiesCSV.Size = new Size(121, 26);
-            mnuUtilitiesCSV.Text = "CSV";
+            mnuUtilitiesCSV.Size = new Size(236, 38);
+            mnuUtilitiesCSV.Text = "Locking CSV";
+            mnuUtilitiesCSV.Click += mnuUtilitiesCSV_Click;
             // 
             // mnuUtilitiesSMS
             // 
@@ -279,7 +280,7 @@
             mnuUtilitiesSMS.ForeColor = Color.FromArgb(41, 128, 185);
             mnuUtilitiesSMS.Image = Properties.Resources.icons8_sms_100;
             mnuUtilitiesSMS.Name = "mnuUtilitiesSMS";
-            mnuUtilitiesSMS.Size = new Size(121, 26);
+            mnuUtilitiesSMS.Size = new Size(236, 38);
             mnuUtilitiesSMS.Text = "SMS";
             // 
             // mnuMasters

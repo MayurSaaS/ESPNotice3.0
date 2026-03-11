@@ -51,6 +51,9 @@ namespace ESPNotice3._0.Forms
         public string strCSVFileDate = "";
         public string strFromCSVFileDate = "";
         public string strToCSVFileDate = "";
+        public string strLockingFromDate = "";
+        public string strLockingToDate = "";
+        public string strRTOCode = "";
 
         public string[] ctrls = { };
         public string[] Profile_ctrls = { "CompanyName*", "ContactName", "PhoneNumber", "FaxNumber", "EmailAddress", "Website", "Address", "Pincode" };
@@ -150,8 +153,14 @@ namespace ESPNotice3._0.Forms
                 strTableName = "NoticeData";
                 ctrls = VIDData_ctrls;
             }
+            else if (this.Name == "frmLockingCSV")
+            {
+                this.tabControl.TabPages.RemoveAt(1);
+                btnEdit.Visible = false;
+                btnNew.Visible = false;
+            }
 
-            pro_LoadGrid();
+                pro_LoadGrid();
             pro_LoadFormControls();
         }
         private void frmBase_Resize(object sender, EventArgs e)
@@ -441,6 +450,11 @@ namespace ESPNotice3._0.Forms
 
             }
 
+            else if (this.Name == "frmLockingCSV")
+            {
+                sQry = "EXEC GetRTOWiseLockingData @FromDate = N'" + strLockingFromDate + "', @ToDate = N'" + strLockingToDate + "', @CenterName = '', @StateCode = N'" + Program.sStateCode + "', @RTOCode = '" + strRTOCode + "', @IsComm = NULL, @LessThanOneYear = 0, @IsDuplicate = 0, @IsOther = 0";
+            }
+
             else
             {
                 sQry = "SELECT * FROM " + strTableName;
@@ -454,8 +468,11 @@ namespace ESPNotice3._0.Forms
             if (this.Controls.Find("dgvGrid", true).Length != 0 && this.Controls.Find("dgvGrid", true)[0].Visible)
             {
                 dgvGrid.DataSource = dt;
-                if (dgvGrid.Columns.Count > 0)
-                    dgvGrid.Columns[0].Visible = false;
+                if (this.Name != "frmLockingCSV")
+                {
+                    if (dgvGrid.Columns.Count > 0)
+                        dgvGrid.Columns[0].Visible = false;
+                }
             }
 
         }

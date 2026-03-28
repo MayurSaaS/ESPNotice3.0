@@ -31,7 +31,7 @@ namespace ESPNotice3._0.Forms
 
         private void dtpCSVFileDate_ValueChanged(object sender, EventArgs e)
         {
-            string fromDate = dtpCSVFileDate.Value.ToString("yyyy-MM-dd");
+            string fromDate = dtpCSVFileDate.Value.ToString("dd-MM-yyyy");
             this.strCSVFileDate = dtpCSVFileDate.Value.ToString("dd-MMM-yyyy");
             string strQry = "SELECT CM.CenterCode AS Code,  CM.CenterName + '  -  (' + CM.Centercode +')' + ' - (' + CONVERT(VARCHAR(10),COUNT(CSV.CenterCode)) + ')' AS CenterName FROM CenterMaster CM\r\nLEFT OUTER JOIN CSV ON CSV.CenterCode = CM.CenterCode\r\nWHERE CSV.vdfDateTime = '" + fromDate + "'\r\nGROUP BY CM.CenterCode, CM.CenterName";
             DBAccess.FillDropDownList(strQry, "Code", "CenterName", cbxCenterName);

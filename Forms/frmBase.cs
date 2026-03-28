@@ -527,7 +527,7 @@ namespace ESPNotice3._0.Forms
             //grbFormView.Top = 4;
 
             grbFormView.Width = tabControl.Width - 18;
-            grbFormView.Height = tabControl.Height - 50;
+            grbFormView.Height = tabControl.Height - 130;
             grbFormView.Left = 6;
             grbFormView.Top = 0;
 

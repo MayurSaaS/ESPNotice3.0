@@ -29,7 +29,7 @@ namespace ESPNotice3._0.Forms
             sInputFilesPath = sInputFilesPath.Replace("{STATE}", Program.sStateCode);
             sInputFilesPath = sInputFilesPath.Replace("{YEAR}", dtpCSVDate.Value.Year.ToString());
             sInputFilesPath = sInputFilesPath.Replace("{MONTH}", dtpCSVDate.Value.Month.ToString().PadLeft(2, '0'));
-            sInputFilesPath = sInputFilesPath.Replace("{DATE}", dtpCSVDate.Value.ToString("yyyy-MM-dd"));
+            sInputFilesPath = sInputFilesPath.Replace("{DATE}", dtpCSVDate.Value.ToString("dd-MM-yyyy"));
             sInputFilesPath = sInputFilesPath.Replace("{CSVORPICS}", "Pics");
 
             return sInputFilesPath;
@@ -68,7 +68,7 @@ namespace ESPNotice3._0.Forms
             if (!OutputFilesPath.EndsWith("\\")) { OutputFilesPath = OutputFilesPath + "\\"; }
 
             this.lblFormTitle.Text = this.Text;
-            tbxInputFilePath.Text = InputFilesPath;
+            tbxInputFilePath.Text = InputFilesPath + "Pics\\";
             tabControl.SelectedIndex = 1;
             grbNoticeView.Width = grbGridView.Width;
             grbNoticeView.Height = grbGridView.Height;
@@ -96,7 +96,7 @@ namespace ESPNotice3._0.Forms
             cbxCenterName.DataSource = null;
             string strQry = "SELECT CM.CenterCode AS Code,  CM.CenterName + '  -  (' + CM.Centercode +')' + ' - (' + CONVERT(VARCHAR(10),COUNT(CSV.CenterCode)) + ')' AS CenterName FROM CenterMaster CM\r\nLEFT OUTER JOIN CSV ON CSV.CenterCode = CM.CenterCode\r\nWHERE CSV.vdfDateTime = '" + fromDate + "'\r\nGROUP BY CM.CenterCode, CM.CenterName";
             DBAccess.FillDropDownList(strQry, "Code", "CenterName", cbxCenterName);
-            tbxInputFilePath.Text = InputFilesPath;
+            tbxInputFilePath.Text = InputFilesPath + "Pics\\";
         }
         private void cbxCenterName_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -218,13 +218,24 @@ namespace ESPNotice3._0.Forms
                 ExportPDF_CSV(dsOther, sfilePath, sfileNameDailyOthers);
             }
 
-            //Day wise
+            //DAY WISE
             dsNotice dsDaily = GetDataRTOWise(fromDate, toDate, centerName, RTOCode, null, false, false, false);
             if (dsDaily != null && dsDaily.Tables.Count > 0)
             {
                 string sfileNameDaily = Convert.ToDateTime(fromDate).ToString("yyMMdd") + "_Notices";
                 string sfilePath = sOutputFilePath + Convert.ToDateTime(fromDate).ToString("dd") + "\\" ;
                 ExportPDF_CSV(dsDaily, sfilePath, sfileNameDaily);
+            }
+
+            //DAY WISE - SMS
+            dsNotice dsRTOSMS = GetRTOWiseSMSData(fromDate, toDate, centerName, RTOCode, null, false, false, false);
+            if (dsRTOSMS != null && dsRTOSMS.Tables.Count > 0)
+            {
+                string sfileNameDailyRTOSMS = "SMS_" + Convert.ToDateTime(fromDate).ToString("yyMMdd");
+                string sfilePath = sOutputFilePath + "\\SMS\\";
+                string sFilePathCSV = sfilePath.Replace("OUTPUTFILES", "OUTPUTFILES\\CSV");
+                DataTable dtExportCSV = dsRTOSMS.Tables["Table"];
+                ExportCSV(dtExportCSV, sFilePathCSV + sfileNameDailyRTOSMS + ".csv");
             }
 
             //Day wise - RTO WISE, COMM, NON-COMM
@@ -239,8 +250,8 @@ namespace ESPNotice3._0.Forms
                 dsNotice dsRTOLocking = GetRTOWiseLockingData(fromDate, toDate, centerName,RTOCode, null, false, false, false);
                 if (dsRTOLocking != null && dsRTOLocking.Tables.Count > 0) 
                 {
-                    string sfileNameDailyRTOLocking = "RTOWise_" + RTOName + "_Locking_" + Convert.ToDateTime(fromDate).ToString("yyMMdd");
-                    string sfilePath = sOutputFilePath + Convert.ToDateTime(fromDate).ToString("dd") + "\\RTOWise\\" + RTOName + "\\";
+                    string sfileNameDailyRTOLocking = "RTOCD_" + Convert.ToDateTime(fromDate).ToString("dd");
+                    string sfilePath = sOutputFilePath + "\\Locking\\RTO Office\\" + RTOName + "\\";
                     string sFilePathCSV = sfilePath.Replace("OUTPUTFILES", "OUTPUTFILES\\CSV");
                     DataTable dtExportCSV = dsRTOLocking.Tables["Table"];
                     ExportCSV(dtExportCSV, sFilePathCSV + sfileNameDailyRTOLocking + ".csv");
@@ -499,6 +510,54 @@ namespace ESPNotice3._0.Forms
             using (SqlConnection conn = new SqlConnection(constr))
             {
                 using (SqlCommand cmd = new SqlCommand("GetRTOWiseLockingData", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@FromDate", fromDate);
+                    cmd.Parameters.AddWithValue("@ToDate", toDate);
+                    cmd.Parameters.AddWithValue("@CenterName", centerName);
+                    cmd.Parameters.AddWithValue("@StateCode", Program.sStateCode);
+                    cmd.Parameters.AddWithValue("@RtoCode", rtoCode);
+
+                    cmd.Parameters.AddWithValue("@IsComm", (object)IsComm ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@LessThanOneYear", LessThanOneYear);
+                    cmd.Parameters.AddWithValue("@IsDuplicate", IsDuplicate);
+                    cmd.Parameters.AddWithValue("@IsOther", IsOther);
+
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    dsNotice ds = new dsNotice();
+                    conn.Open();
+                    da.Fill(ds);
+                    return ds;
+                }
+            }
+
+            //using (SqlConnection con = new SqlConnection(constr))
+            //{
+            //    string sQry = "EXEC GetNoticeReportData '" + fromDate + "', '" + toDate + "', '" + centerName + "', '" + Program.sStateCode + "', '" + rtoCode + "', " + IsComm + ", " + LessThanOneYear + ", " + IsDuplicate + ", " + IsOther + "";
+            //    using (SqlCommand cmd = new SqlCommand(sQry))
+            //    {
+            //        using (SqlDataAdapter sda = new SqlDataAdapter())
+            //        {
+            //            cmd.Connection = con;
+            //            sda.SelectCommand = cmd;
+            //            using (dsNotice ds = new dsNotice())
+            //            {
+            //                sda.Fill(ds, "dtoNotice");
+            //                return ds;
+            //            }
+            //        }
+            //    }
+            //}
+        }
+
+        private dsNotice GetRTOWiseSMSData(string fromDate, string toDate, string centerName, string rtoCode, bool? IsComm = null, bool LessThanOneYear = false, bool IsDuplicate = false, bool IsOther = false)
+        {
+            string constr = DBAccess.ConnectionString;
+
+            using (SqlConnection conn = new SqlConnection(constr))
+            {
+                using (SqlCommand cmd = new SqlCommand("GetRTOWiseSMSData", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 

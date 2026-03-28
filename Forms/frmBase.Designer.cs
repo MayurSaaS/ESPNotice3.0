@@ -371,7 +371,6 @@ namespace ESPNotice3._0.Forms
         private PictureBox pbxLogo;
         private Panel pnlGrid;
         public Label lblFormTitle;
-        private Panel pnlSave;
         public DataGridView dgvGrid;
         public TextBox tbxSearch;
         public Button btnSearch;
@@ -389,5 +388,6 @@ namespace ESPNotice3._0.Forms
         public Label lblTotalRecordsValue;
         private Label lblTotalRecords;
         public Button btnDelete;
+        public Panel pnlSave;
     }
 }

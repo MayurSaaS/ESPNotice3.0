@@ -256,7 +256,16 @@ namespace ESPNotice3._0.Forms
                     DataTable dtExportCSV = dsRTOLocking.Tables["Table"];
                     ExportCSV(dtExportCSV, sFilePathCSV + sfileNameDailyRTOLocking + ".csv");
                 }
-
+                //RTO WISE - Locking Other
+                dsNotice dsRTOLockingOther = GetRTOWiseLockingData(fromDate, toDate, centerName, RTOCode, null, false, false, true);
+                if (dsRTOLockingOther != null && dsRTOLockingOther.Tables.Count > 0)
+                {
+                    string sfileNameDailyRTOLocking = "RTOCD_" + Convert.ToDateTime(fromDate).ToString("dd");
+                    string sfilePath = sOutputFilePath + "\\Locking\\RTO Office\\" + RTOName + "\\";
+                    string sFilePathCSV = sfilePath.Replace("OUTPUTFILES", "OUTPUTFILES\\CSV");
+                    DataTable dtExportCSV = dsRTOLockingOther.Tables["Table"];
+                    ExportCSV(dtExportCSV, sFilePathCSV + sfileNameDailyRTOLocking + ".csv");
+                }
                 //RTO WISE
                 dsNotice dsDailyRTO = GetDataRTOWise(fromDate, toDate, centerName, RTOCode, null, false, false, false);
                 if (dsDailyRTO != null && dsDailyRTO.Tables.Count > 0)
@@ -334,7 +343,8 @@ namespace ESPNotice3._0.Forms
         }
         private void ExportPDF(DataTable dtSource, string strFilePath)
         {
-            if (dtSource == null && dtSource.Rows.Count<=0) { return; }
+            if (dtSource == null) { return; }
+            if (dtSource != null && dtSource.Rows.Count<=0) { return; }
 
             LocalReport report = new LocalReport();
             report.ReportPath = Application.StartupPath.Split("bin")[0] + "RDLC\\rptNotices.rdlc";
@@ -363,7 +373,8 @@ namespace ESPNotice3._0.Forms
         }
         private void ExportCSV(DataTable dtSource, string strFilePath)
         {
-            if (dtSource == null && dtSource.Rows.Count <= 0) { return; }
+            if (dtSource == null) { return; }
+            if (dtSource != null && dtSource.Rows.Count <= 0) { return; }
 
             string directoryPath = Path.GetDirectoryName(strFilePath);
             Directory.CreateDirectory(directoryPath);

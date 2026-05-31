@@ -47,11 +47,18 @@
             lblFuel = new Label();
             tbxWheels = new TextBox();
             lblWheels = new Label();
+            tbxMul_minHC = new TextBox();
+            lblMul_minHC = new Label();
+            tbxMul_minSmoke = new TextBox();
+            lblMul_minSmoke = new Label();
+            tbxMul_minCO = new TextBox();
+            lblMul_minCO = new Label();
             grbFormView.SuspendLayout();
             tabControl.SuspendLayout();
             grbGridView.SuspendLayout();
             tabGridView.SuspendLayout();
             pnlSearch.SuspendLayout();
+            pnlSave.SuspendLayout();
             SuspendLayout();
             // 
             // btnClose
@@ -60,6 +67,12 @@
             // 
             // grbFormView
             // 
+            grbFormView.Controls.Add(tbxMul_minHC);
+            grbFormView.Controls.Add(lblMul_minHC);
+            grbFormView.Controls.Add(tbxMul_minSmoke);
+            grbFormView.Controls.Add(lblMul_minSmoke);
+            grbFormView.Controls.Add(tbxMul_minCO);
+            grbFormView.Controls.Add(lblMul_minCO);
             grbFormView.Controls.Add(tbxminSmoke);
             grbFormView.Controls.Add(lblminSmoke);
             grbFormView.Controls.Add(tbxminHC);
@@ -88,6 +101,12 @@
             grbFormView.Controls.SetChildIndex(tbxminHC, 0);
             grbFormView.Controls.SetChildIndex(lblminSmoke, 0);
             grbFormView.Controls.SetChildIndex(tbxminSmoke, 0);
+            grbFormView.Controls.SetChildIndex(lblMul_minCO, 0);
+            grbFormView.Controls.SetChildIndex(tbxMul_minCO, 0);
+            grbFormView.Controls.SetChildIndex(lblMul_minSmoke, 0);
+            grbFormView.Controls.SetChildIndex(tbxMul_minSmoke, 0);
+            grbFormView.Controls.SetChildIndex(lblMul_minHC, 0);
+            grbFormView.Controls.SetChildIndex(tbxMul_minHC, 0);
             // 
             // tbxminSmoke
             // 
@@ -109,14 +128,14 @@
             // tbxminHC
             // 
             tbxminHC.BorderStyle = BorderStyle.FixedSingle;
-            tbxminHC.Location = new Point(912, 277);
+            tbxminHC.Location = new Point(253, 385);
             tbxminHC.Name = "tbxminHC";
             tbxminHC.Size = new Size(300, 27);
             tbxminHC.TabIndex = 28;
             // 
             // lblminHC
             // 
-            lblminHC.Location = new Point(737, 277);
+            lblminHC.Location = new Point(78, 385);
             lblminHC.Name = "lblminHC";
             lblminHC.Size = new Size(175, 27);
             lblminHC.TabIndex = 27;
@@ -208,6 +227,57 @@
             lblWheels.Text = "Wheels";
             lblWheels.TextAlign = ContentAlignment.MiddleLeft;
             // 
+            // tbxMul_minHC
+            // 
+            tbxMul_minHC.BorderStyle = BorderStyle.FixedSingle;
+            tbxMul_minHC.Location = new Point(912, 331);
+            tbxMul_minHC.Name = "tbxMul_minHC";
+            tbxMul_minHC.Size = new Size(300, 27);
+            tbxMul_minHC.TabIndex = 36;
+            // 
+            // lblMul_minHC
+            // 
+            lblMul_minHC.Location = new Point(737, 331);
+            lblMul_minHC.Name = "lblMul_minHC";
+            lblMul_minHC.Size = new Size(175, 27);
+            lblMul_minHC.TabIndex = 35;
+            lblMul_minHC.Text = "Mul_minHC";
+            lblMul_minHC.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // tbxMul_minSmoke
+            // 
+            tbxMul_minSmoke.BorderStyle = BorderStyle.FixedSingle;
+            tbxMul_minSmoke.Location = new Point(912, 385);
+            tbxMul_minSmoke.Name = "tbxMul_minSmoke";
+            tbxMul_minSmoke.Size = new Size(300, 27);
+            tbxMul_minSmoke.TabIndex = 34;
+            // 
+            // lblMul_minSmoke
+            // 
+            lblMul_minSmoke.Location = new Point(737, 385);
+            lblMul_minSmoke.Name = "lblMul_minSmoke";
+            lblMul_minSmoke.Size = new Size(175, 27);
+            lblMul_minSmoke.TabIndex = 33;
+            lblMul_minSmoke.Text = "Mul_minSmoke";
+            lblMul_minSmoke.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // tbxMul_minCO
+            // 
+            tbxMul_minCO.BorderStyle = BorderStyle.FixedSingle;
+            tbxMul_minCO.Location = new Point(912, 277);
+            tbxMul_minCO.Name = "tbxMul_minCO";
+            tbxMul_minCO.Size = new Size(300, 27);
+            tbxMul_minCO.TabIndex = 32;
+            // 
+            // lblMul_minCO
+            // 
+            lblMul_minCO.Location = new Point(737, 277);
+            lblMul_minCO.Name = "lblMul_minCO";
+            lblMul_minCO.Size = new Size(175, 27);
+            lblMul_minCO.TabIndex = 31;
+            lblMul_minCO.Text = "Mul_minCO";
+            lblMul_minCO.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // frmLimits
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -223,6 +293,7 @@
             tabGridView.ResumeLayout(false);
             pnlSearch.ResumeLayout(false);
             pnlSearch.PerformLayout();
+            pnlSave.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -242,5 +313,11 @@
         private Label lblFuel;
         private TextBox tbxWheels;
         private Label lblWheels;
+        private TextBox tbxMul_minHC;
+        private Label lblMul_minHC;
+        private TextBox tbxMul_minSmoke;
+        private Label lblMul_minSmoke;
+        private TextBox tbxMul_minCO;
+        private Label lblMul_minCO;
     }
 }

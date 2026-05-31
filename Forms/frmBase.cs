@@ -59,7 +59,7 @@ namespace ESPNotice3._0.Forms
         public string[] Profile_ctrls = { "CompanyName*", "ContactName", "PhoneNumber", "FaxNumber", "EmailAddress", "Website", "Address", "Pincode" };
         public string[] Centers_ctrls = { "CenterCode*", "CenterName*", "StateCode*" };
         public string[] InvalidRegnNo_ctrls = { "REGN_NO" };
-        public string[] Limits_ctrls = { "Wheels*", "Fuel*", "Compliance", "Model", "minCO", "minHC", "minSmoke" };
+        public string[] Limits_ctrls = { "Wheels*", "Fuel*", "Compliance", "Model", "minCO", "minHC", "minSmoke", "Mul_minCO", "Mul_minHC", "Mul_minSmoke" };
         public string[] NoticeFormat_ctrls = { "FormatName*", "LHeader", "CHeader", "RHeader", "Title", "InspectionCenter", "Notice" };
         public string[] Users_ctrls = { "Name*", "UserType", "LoginID", "Password" };
         public string[] VehicleClasses_ctrls = { "CLASS_CD*", "CL_DESC", "CLASS_TYPE", "TRANSPORT_CATG", "Wheels" };
@@ -458,6 +458,21 @@ namespace ESPNotice3._0.Forms
             else
             {
                 sQry = "SELECT * FROM " + strTableName;
+                string[] cols = GetColumns(strTableName);
+                List<string> conditions = new List<string>();
+
+                if (!string.IsNullOrWhiteSpace(tbxSearch.Text))
+                {
+                    for (int i = 0; i < cols.Length; i++)
+                    {
+                        conditions.Add($"{cols[i]} Like '%{tbxSearch.Text.Trim()}%'");
+                    }
+                }
+
+                if (conditions.Count > 0)
+                {
+                    sQry += " WHERE " + string.Join(" OR ", conditions);
+                }
             }
 
 
@@ -475,6 +490,18 @@ namespace ESPNotice3._0.Forms
                 }
             }
 
+        }
+        private string[] GetColumns(string strTableName)
+        {
+            DataTable dt = DBAccess.GetDataTable("SELECT * FROM " + strTableName);
+            string[] _result = new string[dt.Columns.Count];
+
+            for (int i=0; i < dt.Columns.Count; i++)
+            {
+                _result[i] = dt.Columns[i].ColumnName;
+            }
+
+            return _result;
         }
         public void pro_LoadDesign()
         {

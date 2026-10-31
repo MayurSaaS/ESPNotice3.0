@@ -1,4 +1,5 @@
-﻿using ESPNotice3._0.Classes;
+﻿using ClosedXML.Excel;
+using ESPNotice3._0.Classes;
 using ESPNotice3._0.DataSet;
 using Microsoft.Data.SqlClient;
 using Microsoft.Reporting.WinForms;
@@ -235,7 +236,8 @@ namespace ESPNotice3._0.Forms
                 string sfilePath = sOutputFilePath + "\\SMS\\";
                 string sFilePathCSV = sfilePath.Replace("OUTPUTFILES", "OUTPUTFILES\\CSV");
                 DataTable dtExportCSV = dsRTOSMS.Tables["Table"];
-                ExportCSV(dtExportCSV, sFilePathCSV + sfileNameDailyRTOSMS + ".csv");
+                //ExportCSV(dtExportCSV, sFilePathCSV + sfileNameDailyRTOSMS + ".csv");
+                ExportExcel(dtExportCSV, sFilePathCSV + sfileNameDailyRTOSMS + ".xlsx");
             }
 
             //Day wise - RTO WISE, COMM, NON-COMM
@@ -257,7 +259,7 @@ namespace ESPNotice3._0.Forms
                     ExportCSV(dtExportCSV, sFilePathCSV + sfileNameDailyRTOLocking + ".csv");
                 }
                 //RTO WISE - Locking Other
-                dsNotice dsRTOLockingOther = GetRTOWiseLockingData(fromDate, toDate, centerName, RTOCode, null, false, false, true);
+                dsNotice dsRTOLockingOther = GetRTOWiseLockingData(fromDate, toDate, centerName, RTOCode, null, false, false, false);
                 if (dsRTOLockingOther != null && dsRTOLockingOther.Tables.Count > 0)
                 {
                     string sfileNameDailyRTOLocking = "RTOCD_" + Convert.ToDateTime(fromDate).ToString("dd");
@@ -418,6 +420,45 @@ namespace ESPNotice3._0.Forms
                 sw.Write(sw.NewLine);
             }
             sw.Close();
+        }
+
+        private void ExportExcel(DataTable dtSource, string filePath)
+        {
+            if (dtSource == null || dtSource.Rows.Count == 0)
+                return;
+
+            string directoryPath = Path.GetDirectoryName(filePath);
+            Directory.CreateDirectory(directoryPath);
+
+            if (File.Exists(filePath))
+                File.Delete(filePath);
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Data");
+
+                // Header
+                for (int col = 0; col < dtSource.Columns.Count; col++)
+                {
+                    worksheet.Cell(1, col + 1).Value = dtSource.Columns[col].ColumnName;
+                    worksheet.Cell(1, col + 1).Style.Font.Bold = true;
+                }
+
+                // Data
+                for (int row = 0; row < dtSource.Rows.Count; row++)
+                {
+                    for (int col = 0; col < dtSource.Columns.Count; col++)
+                    {
+                        worksheet.Cell(row + 2, col + 1).Value =
+                            dtSource.Rows[row][col]?.ToString();
+                    }
+                }
+
+                // Auto-fit columns
+                worksheet.Columns().AdjustToContents();
+
+                workbook.SaveAs(filePath);
+            }
         }
 
         private void btnNoticeView_Click(object sender, EventArgs e)

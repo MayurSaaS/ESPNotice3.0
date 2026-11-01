@@ -193,7 +193,7 @@ namespace ESPNotice3._0.Forms
             string toDateMonthly = dtpCSVDate.Value.ToString("yyyy-MM-"+lastDateOfMonth.ToString("dd"));
 
             //MONTH
-            dsNotice dsMonthly = GetDataRTOWise(fromDateMonthly, toDateMonthly, centerName, RTOCode, null, false, false, false);
+            dsNotice dsMonthly = GetDataRTOWise(fromDateMonthly, toDateMonthly, null, null, null, false, false, false);
             if (dsMonthly != null && dsMonthly.Tables.Count > 0)
             {
                 string sfileName = Convert.ToDateTime(fromDate).Year.ToString().Substring(2, 2) + Convert.ToDateTime(fromDate).Month.ToString().PadLeft(2, '0') + "_Notices";
@@ -201,7 +201,7 @@ namespace ESPNotice3._0.Forms
                 ExportPDF_CSV(dsMonthly, sfilePath, sfileName);
             }
 
-            //DUPLICATE
+            //MONTHWISE DUPLICATE
             dsNotice dsMonthlyDuplicate = GetDataRTOWise(fromDateMonthly, toDateMonthly, null, null, null, false, true, false);
             if (dsMonthlyDuplicate != null && dsMonthlyDuplicate.Tables.Count > 0)
             {
@@ -210,7 +210,7 @@ namespace ESPNotice3._0.Forms
                 ExportPDF_CSV(dsMonthlyDuplicate, sfilePath, sfileName);
             }
 
-            //OTHER
+            //DATEWISE OTHER NOTICES
             dsNotice dsOther = GetDataRTOWise(fromDate, toDate, centerName, RTOCode, null, false, false, true);
             if (dsOther != null && dsOther.Tables.Count > 0)
             {
@@ -219,7 +219,7 @@ namespace ESPNotice3._0.Forms
                 ExportPDF_CSV(dsOther, sfilePath, sfileNameDailyOthers);
             }
 
-            //DAY WISE
+            //DATEWISE NOTICES
             dsNotice dsDaily = GetDataRTOWise(fromDate, toDate, centerName, RTOCode, null, false, false, false);
             if (dsDaily != null && dsDaily.Tables.Count > 0)
             {
@@ -228,7 +228,7 @@ namespace ESPNotice3._0.Forms
                 ExportPDF_CSV(dsDaily, sfilePath, sfileNameDaily);
             }
 
-            //DAY WISE - SMS
+            //DATEWISE NOTICES - SMS
             dsNotice dsRTOSMS = GetRTOWiseSMSData(fromDate, toDate, centerName, RTOCode, null, false, false, false);
             if (dsRTOSMS != null && dsRTOSMS.Tables.Count > 0)
             {
@@ -240,7 +240,7 @@ namespace ESPNotice3._0.Forms
                 ExportExcel(dtExportCSV, sFilePathCSV + sfileNameDailyRTOSMS + ".xlsx");
             }
 
-            //Day wise - RTO WISE, COMM, NON-COMM
+            //DATEWISE NOTICES - RTO WISE, COMM, NON-COMM
 
             DataTable dt = DBAccess.GetDataTable("SELECT * FROM RTOGroups");
             for (int i=0; i<dt.Rows.Count; i++)
